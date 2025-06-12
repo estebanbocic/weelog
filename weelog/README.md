@@ -1,24 +1,17 @@
-# WeeLog 🪵
+# WeeLog 2.0 🚀
 
-[![npm version](https://badge.fury.io/js/weelog.svg)](https://badge.fury.io/js/weelog)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/weelog)](https://bundlephobia.com/package/weelog)
+Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.
 
-A tiny, powerful logging library for JavaScript applications. Zero dependencies, maximum flexibility.
+## ✨ What's New in 2.0
 
-## ✨ Features
-
-- **🪶 Lightweight**: Only 2KB gzipped, zero dependencies
-- **🌐 Universal**: Works in browsers and Node.js environments
-- **🎨 Colorized**: Beautiful console output with level-based colors (browser)
-- **📝 Contextual**: Add context to your logs for better organization
-- **⚙️ Configurable**: Control log levels, timestamps, and more
-- **🔌 Extensible**: Interceptor callbacks for custom log handling
-- **📦 Modern**: ES6+ with TypeScript support
+- **⚡ Performance Tracking**: Built-in timers to measure operation durations
+- **🧠 Memory Monitoring**: Real-time memory usage tracking for browser & Node.js
+- **📊 Live Analytics**: Error rates, log patterns, and context insights
+- **🔍 Smart Search**: Advanced filtering across log history
+- **📋 Stack Traces**: Automatic capture for debugging
+- **💾 Session Tracking**: Export complete debugging sessions as JSON
 
 ## 🚀 Quick Start
-
-### Installation
 
 ```bash
 npm install weelog
@@ -29,226 +22,160 @@ npm install weelog
 ```javascript
 import Logger from 'weelog';
 
-const logger = new Logger();
+const logger = new Logger({
+  level: 'info',
+  useTimestamp: true
+});
 
-logger.info('Hello WeeLog!');
-logger.warn('This is a warning');
-logger.error('Something went wrong');
+logger.info('Hello World!');
+logger.withContext('API').error('Request failed', { status: 500 });
 ```
 
-### Configuration
+### Advanced Features
 
 ```javascript
+// Enable all advanced features
 const logger = new Logger({
-  level: 'debug',          // Minimum log level
-  enabled: true,           // Enable/disable logging
-  useTimestamp: true       // Include timestamps
+  level: 'debug',
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  enableLogAnalytics: true,
+  maxLogHistory: 1000
 });
+
+// Performance tracking
+logger.startPerformanceTimer('database-query');
+await fetchUserData();
+logger.endPerformanceTimer('database-query');
+
+// Automatic stack traces
+logger.trace('Debug checkpoint reached');
+
+// Get analytics
+const analytics = logger.getAnalytics();
+console.log(`Error rate: ${analytics.errorRate}%`);
+
+// Search logs
+const errorLogs = logger.searchLogs({
+  level: 'error',
+  timeRange: { start: new Date('2024-01-01'), end: new Date() }
+});
+
+// Export session data
+const exportData = logger.exportLogs();
 ```
 
 ## 📖 API Reference
 
-### Constructor
+### Constructor Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `level` | `'debug' \| 'info' \| 'warn' \| 'error'` | `'info'` | Minimum log level |
+| `enabled` | `boolean` | `true` | Enable/disable logging |
+| `useTimestamp` | `boolean` | `false` | Include timestamps |
+| `enablePerformanceTracking` | `boolean` | `false` | Track operation timers |
+| `enableMemoryTracking` | `boolean` | `false` | Monitor memory usage |
+| `enableLogAnalytics` | `boolean` | `false` | Collect analytics data |
+| `maxLogHistory` | `number` | `1000` | Maximum logs to keep |
+
+### Core Methods
 
 ```javascript
-new Logger(options?)
+// Basic logging
+logger.debug(message, data?)
+logger.info(message, data?)
+logger.warn(message, data?)
+logger.error(message, data?)
+
+// Context logging
+logger.withContext('ModuleName').info('Message')
+
+// Performance tracking
+logger.startPerformanceTimer(label)
+logger.endPerformanceTimer(label, message?)
+
+// Advanced features
+logger.trace(message, data?)           // Auto stack trace
+logger.getAnalytics()                  // Get metrics
+logger.getLogHistory()                 // Get all logs
+logger.searchLogs(criteria)            // Search with filters
+logger.exportLogs()                    // Export as JSON
+logger.clearHistory()                  // Clear log history
 ```
 
-**Options:**
-- `level`: `'debug' | 'info' | 'warn' | 'error'` (default: `'info'`)
-- `enabled`: `boolean` (default: `true`)
-- `useTimestamp`: `boolean` (default: `false`)
-
-### Logging Methods
+### Search Criteria
 
 ```javascript
-logger.debug(message, data?)   // Debug information
-logger.info(message, data?)    // General information  
-logger.warn(message, data?)    // Warnings
-logger.error(message, data?)   // Errors
+logger.searchLogs({
+  level?: 'debug' | 'info' | 'warn' | 'error',
+  context?: string,
+  message?: string,
+  timeRange?: { start: Date, end: Date }
+})
 ```
 
-### Control Methods
+## 🌍 Environment Support
+
+- ✅ **Browser**: Full feature support including memory tracking
+- ✅ **Node.js**: Complete functionality with process memory monitoring
+- ✅ **TypeScript**: Full type definitions included
+- ✅ **ES Modules**: Native ESM support
+- ✅ **CommonJS**: Legacy compatibility
+
+## 📊 Analytics Data
 
 ```javascript
-logger.setLevel(level)         // Change log level
-logger.enable(boolean)         // Enable/disable logging
-logger.withContext(name)       // Create contextual logger
-logger.onLog(callback)         // Add log interceptor
-```
-
-## 🔧 Advanced Usage
-
-### Context Logging
-
-```javascript
-const apiLogger = logger.withContext('API');
-apiLogger.info('Request started', { url: '/users' });
-// Output: [INFO] [API] Request started {"url":"/users"}
-```
-
-### Log Interception
-
-```javascript
-logger.onLog((level, message, context, data) => {
-  // Send to analytics, save to file, etc.
-  analytics.track('log_event', {
-    level, message, context, data
-  });
-});
-```
-
-### Method Chaining
-
-```javascript
-const prodLogger = new Logger()
-  .setLevel('warn')
-  .enable(process.env.NODE_ENV !== 'test')
-  .withContext('Production');
-```
-
-## 🖥️ Framework Integration
-
-### React Hook
-
-```javascript
-import { useMemo } from 'react';
-import Logger from 'weelog';
-
-export function useLogger(context, options = {}) {
-  return useMemo(() => {
-    const logger = new Logger({
-      level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
-      useTimestamp: true,
-      ...options
-    });
-    return context ? logger.withContext(context) : logger;
-  }, [context, options]);
+const analytics = logger.getAnalytics();
+// Returns:
+{
+  totalLogs: number,
+  errorRate: number,
+  logsByLevel: { debug: 0, info: 10, warn: 2, error: 1 },
+  averageLogRate: number,
+  topContexts: [{ context: 'API', count: 15 }]
 }
 ```
 
-### Vue Composable
+## 💾 Export Format
 
 ```javascript
-import { ref, computed } from 'vue';
-import Logger from 'weelog';
-
-export function useLogger(context = null, options = {}) {
-  const logger = ref(new Logger({
-    level: import.meta.env.DEV ? 'debug' : 'info',
-    useTimestamp: true,
-    ...options
-  }));
-  
-  const contextLogger = computed(() => 
-    context ? logger.value.withContext(context) : logger.value
-  );
-  
-  return {
-    logger: contextLogger.value,
-    debug: (msg, data) => contextLogger.value.debug(msg, data),
-    info: (msg, data) => contextLogger.value.info(msg, data),
-    warn: (msg, data) => contextLogger.value.warn(msg, data),
-    error: (msg, data) => contextLogger.value.error(msg, data)
-  };
+const exportData = logger.exportLogs();
+// Returns JSON string with:
+{
+  sessionId: string,
+  exportedAt: string,
+  analytics: AnalyticsData,
+  logs: LogEntry[]
 }
 ```
 
-### Node.js
+## 🎯 Migration from 1.x
+
+WeeLog 2.0 is fully backward compatible. All existing code continues to work, and new features are opt-in through constructor options.
 
 ```javascript
-const Logger = require('weelog');
+// v1.x code works unchanged
+const logger = new Logger({ level: 'info' });
+logger.info('Still works!');
 
-const logger = new Logger({
-  level: process.env.LOG_LEVEL || 'info',
-  useTimestamp: true
+// Add new features when ready
+const advancedLogger = new Logger({
+  level: 'info',
+  enablePerformanceTracking: true  // New in 2.0
 });
-
-// Add file logging interceptor
-logger.onLog((level, message, context, data) => {
-  if (level === 'error') {
-    require('fs').appendFileSync('error.log', 
-      JSON.stringify({ level, message, context, data, timestamp: new Date() }) + '\n'
-    );
-  }
-});
-
-module.exports = logger;
 ```
 
-### Express.js Middleware
+## 📝 License
 
-```javascript
-const Logger = require('weelog');
+MIT License - see LICENSE file for details.
 
-const httpLogger = new Logger()
-  .setLevel('info')
-  .withContext('HTTP');
+## 🤝 Support
 
-function requestLogger(req, res, next) {
-  const start = Date.now();
-  const requestId = Math.random().toString(36).substr(2, 9);
-  
-  req.logger = httpLogger.withContext(`HTTP:${requestId}`);
-  
-  req.logger.info(`${req.method} ${req.path}`, {
-    ip: req.ip,
-    userAgent: req.get('User-Agent')
-  });
-  
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    req.logger.info(`Response sent`, {
-      statusCode: res.statusCode,
-      duration: `${duration}ms`
-    });
-  });
-  
-  next();
-}
-
-module.exports = requestLogger;
-```
-
-## 📊 Log Levels
-
-| Level | Description | Color (Browser) |
-|-------|-------------|-----------------|
-| `debug` | Detailed debugging information | Gray |
-| `info` | General informational messages | Blue |
-| `warn` | Warning messages | Yellow |
-| `error` | Error messages | Red |
-
-## 🌍 Browser Support
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
-## 🎯 Node.js Support
-
-- Node.js 12.0.0+
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 🔗 Links
-
-- [NPM Package](https://www.npmjs.com/package/weelog)
-- [GitHub Repository](https://github.com/weelog/weelog)
-- [Documentation](https://weelog.dev)
-- [Live Demo](https://weelog.dev)
+- 📚 [Documentation](https://your-docs-site.com)
+- 🐛 [Issues](https://github.com/your-repo/issues)
+- 💬 [Discussions](https://github.com/your-repo/discussions)
 
 ---
 
-Made with ❤️ for developers everywhere.
+Made with ❤️ for the JavaScript community
