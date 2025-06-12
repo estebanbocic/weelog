@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 export function HeroSection() {
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const [showCopied, setShowCopied] = useState(false);
   
   const fullText = `import Logger from 'weelog';
 
@@ -61,20 +62,45 @@ logger.withContext('Auth').warn("Session expired");`;
     element?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const copyNpmCommand = async () => {
+    try {
+      await navigator.clipboard.writeText('npm install weelog');
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <section className="bg-gradient-to-b from-blue-50 to-white py-16">
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-gray-900 mb-4">
           Tiny, Powerful Logging for JavaScript
         </h2>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
           Zero dependencies, browser and Node.js compatible logging library with context support, 
-          level control, and colorized console output. Available on NPM.
+          level control, and colorized console output.
+        </p>
+        <p className="text-lg text-blue-600 font-medium mb-6">
+          Available on NPM
         </p>
         
-        <div className="flex justify-center mb-6">
-          <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-mono text-sm">
+        <div className="flex justify-center mb-6 relative">
+          <button
+            onClick={copyNpmCommand}
+            className="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-mono text-sm hover:bg-blue-200 transition-colors cursor-pointer"
+          >
             npm install weelog
+          </button>
+          
+          {/* Copy notification */}
+          <div className={`absolute -top-12 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-md text-sm font-medium transition-all duration-300 ${
+            showCopied 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-2 pointer-events-none'
+          }`}>
+            Copied to clipboard!
           </div>
         </div>
         <div className="bg-gray-900 rounded-xl p-6 text-left max-w-2xl mx-auto mb-8">
