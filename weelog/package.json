@@ -1,0 +1,82 @@
+{
+  "name": "weelog",
+  "version": "1.0.0",
+  "description": "A tiny, powerful logging library for JavaScript applications. Zero dependencies, maximum flexibility.",
+  "main": "dist/weelog.cjs.js",
+  "module": "dist/weelog.esm.js",
+  "browser": "dist/weelog.umd.js",
+  "types": "dist/weelog.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/weelog.esm.js",
+      "require": "./dist/weelog.cjs.js",
+      "browser": "./dist/weelog.umd.js",
+      "types": "./dist/weelog.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "prepublishOnly": "npm run build && npm run build:types",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts,.js",
+    "format": "prettier --write src/**/*.{ts,js}",
+    "demo": "cd demo && python -m http.server 8080",
+    "size": "bundlesize"
+  },
+  "keywords": [
+    "logging",
+    "logger",
+    "debug",
+    "console",
+    "tiny",
+    "lightweight",
+    "zero-dependencies",
+    "browser",
+    "nodejs",
+    "typescript",
+    "es6",
+    "context",
+    "interceptor"
+  ],
+  "author": "WeeLog Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/weelog/weelog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/weelog/weelog/issues"
+  },
+  "homepage": "https://weelog.dev",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/jest": "^29.5.8",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "bundlesize": "^0.18.1",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "rollup": "^4.5.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.2"
+  },
+  "bundlesize": [
+    {
+      "path": "dist/weelog.umd.js",
+      "maxSize": "2kb"
+    }
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
