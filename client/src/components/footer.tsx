@@ -49,7 +49,12 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <a 
+                  href="https://www.npmjs.com/package/weelog" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
                   NPM Package
                 </a>
               </li>

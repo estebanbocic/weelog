@@ -19,8 +19,14 @@ export function HeroSection() {
         </h2>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Zero dependencies, browser and Node.js compatible logging library with context support, 
-          level control, and colorized console output.
+          level control, and colorized console output. Available on NPM.
         </p>
+        
+        <div className="flex justify-center mb-6">
+          <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg font-mono text-sm">
+            npm install weelog
+          </div>
+        </div>
         <div className="bg-gray-900 rounded-xl p-6 text-left max-w-2xl mx-auto mb-8">
           <pre className="text-green-400 font-mono text-sm">
             <code>{`import Logger from 'weelog';
@@ -48,6 +54,13 @@ logger.withContext('Auth').warn("Session expired");`}</code>
             className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
           >
             View Documentation
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={() => window.open('https://www.npmjs.com/package/weelog', '_blank')}
+            className="border border-blue-300 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+          >
+            View on NPM
           </Button>
         </div>
       </div>
