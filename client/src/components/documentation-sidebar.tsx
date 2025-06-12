@@ -18,20 +18,22 @@ export function DocumentationSidebar() {
 
   return (
     <div id="documentation" className="lg:col-span-4">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-24">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-20 sm:top-24">
         {/* Tab Navigation */}
         <div className="flex border-b border-gray-200">
           <button
             onClick={() => switchTab('getting-started')}
             className={getTabClasses('getting-started')}
           >
-            Getting Started
+            <span className="hidden sm:inline">Getting Started</span>
+            <span className="sm:hidden">Start</span>
           </button>
           <button
             onClick={() => switchTab('api')}
             className={getTabClasses('api')}
           >
-            API Reference
+            <span className="hidden sm:inline">API Reference</span>
+            <span className="sm:hidden">API</span>
           </button>
           <button
             onClick={() => switchTab('frameworks')}
@@ -42,7 +44,7 @@ export function DocumentationSidebar() {
         </div>
         
         {/* Tab Content */}
-        <div className="h-96 overflow-y-auto overflow-x-hidden">
+        <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden">
           {/* Getting Started Tab */}
           {activeTab === 'getting-started' && (
             <div className="p-6">

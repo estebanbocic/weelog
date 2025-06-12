@@ -109,14 +109,15 @@ export function DemoSection() {
           <p className="text-sm text-gray-600 mt-1">Test all WeeLog features in real-time</p>
         </div>
         
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 border-b border-green-200 px-6 py-3">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-700">
-              <strong>Enjoying WeeLog?</strong> Support development to keep it free and open source.
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 border-b border-green-200 px-4 sm:px-6 py-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <p className="text-xs sm:text-sm text-gray-700">
+              <strong>Enjoying WeeLog?</strong> <span className="hidden sm:inline">Support development to keep it free and open source.</span>
+              <span className="sm:hidden">Support development!</span>
             </p>
             <button
               onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
-              className="bg-green-600 text-white px-4 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors flex items-center ml-4"
+              className="bg-green-600 text-white px-3 sm:px-4 py-1 rounded text-xs sm:text-sm font-medium hover:bg-green-700 transition-colors flex items-center self-start sm:self-auto"
             >
               ❤️ Donate
             </button>
@@ -124,8 +125,8 @@ export function DemoSection() {
         </div>
         
         {/* Demo Controls */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="p-4 sm:p-6 border-b border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Logger Configuration */}
             <div className="space-y-4">
               <h4 className="font-medium text-gray-900">Logger Configuration</h4>
