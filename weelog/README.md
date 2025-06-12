@@ -1,4 +1,4 @@
-# WeeLog 2.0.1 🚀
+# WeeLog 2.0.2 🚀
 
 Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.
 
@@ -6,6 +6,7 @@ Next-generation JavaScript logging library with performance tracking, memory mon
 
 - **⚡ Performance Tracking**: Built-in timers to measure operation durations
 - **🧠 Memory Monitoring**: Real-time memory usage tracking for browser & Node.js
+- **💾 Inline Memory Display**: Live memory usage shown in each log entry (new in 2.0.2)
 - **📊 Live Analytics**: Error rates, log patterns, and context insights
 - **🔍 Smart Search**: Advanced filtering across log history
 - **📋 Stack Traces**: Automatic capture for debugging
@@ -46,11 +47,12 @@ logger.withContext('API').error('Request failed', { status: 500 });
 ### Advanced Features
 
 ```javascript
-// Enable all advanced features
+// Enable all advanced features including inline memory display
 const logger = new Logger({
   level: 'debug',
   enablePerformanceTracking: true,
   enableMemoryTracking: true,
+  logMemoryInline: true,        // NEW: Show memory in each log
   enableLogAnalytics: true,
   maxLogHistory: 1000
 });
@@ -59,6 +61,10 @@ const logger = new Logger({
 logger.startPerformanceTimer('database-query');
 await fetchUserData();
 logger.endPerformanceTimer('database-query');
+
+// Logs with inline memory display
+logger.info('Processing user data');
+// Output: [INFO] Processing user data (Memory: 23.15 MB)
 
 // Automatic stack traces
 logger.trace('Debug checkpoint reached');
@@ -88,6 +94,7 @@ const exportData = logger.exportLogs();
 | `useTimestamp` | `boolean` | `false` | Include timestamps |
 | `enablePerformanceTracking` | `boolean` | `false` | Track operation timers |
 | `enableMemoryTracking` | `boolean` | `false` | Monitor memory usage |
+| `logMemoryInline` | `boolean` | `false` | Show live memory in each log |
 | `enableLogAnalytics` | `boolean` | `false` | Collect analytics data |
 | `maxLogHistory` | `number` | `1000` | Maximum logs to keep |
 
@@ -126,6 +133,37 @@ logger.searchLogs({
   timeRange?: { start: Date, end: Date }
 })
 ```
+
+## 💾 Inline Memory Tracking
+
+Enable live memory display in log output with the `logMemoryInline` option:
+
+```javascript
+const logger = new Logger({
+  level: 'debug',
+  enableMemoryTracking: true,  // Required for memory tracking
+  logMemoryInline: true,       // Show memory in each log entry
+  useTimestamp: true
+});
+
+logger.info('Before memory allocation');
+// Output: [2025-06-12T05:53:17.005Z] [INFO] Before memory allocation (Memory: 4.27 MB)
+
+const data = new Array(100000).fill('test');
+logger.info('After memory allocation');  
+// Output: [2025-06-12T05:53:17.006Z] [INFO] After memory allocation (Memory: 5.04 MB)
+```
+
+**How it works:**
+- **Node.js**: Uses `process.memoryUsage().heapUsed` for accurate heap memory
+- **Browser**: Uses `performance.memory.usedJSHeapSize` when available
+- **Format**: Memory displayed as MB with 2 decimal places
+- **Performance**: Minimal overhead, memory check happens only when logging
+
+**Separate controls:**
+- `enableMemoryTracking: true` - Enables memory data collection for analytics
+- `logMemoryInline: true` - Shows live memory usage in log output
+- Use both together for complete memory monitoring
 
 ## 🌍 Environment Support
 
