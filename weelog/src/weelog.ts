@@ -7,6 +7,10 @@ export interface LoggerOptions {
   level?: LogLevel;
   enabled?: boolean;
   useTimestamp?: boolean;
+  enablePerformanceTracking?: boolean;
+  enableMemoryTracking?: boolean;
+  maxLogHistory?: number;
+  enableLogAnalytics?: boolean;
 }
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
@@ -20,6 +24,30 @@ export interface LogEntry {
   data?: any;
   timestamp: Date;
   formatted: string;
+  performance?: PerformanceMetrics;
+  memory?: MemoryInfo;
+  stackTrace?: string;
+  sessionId?: string;
+}
+
+export interface PerformanceMetrics {
+  duration?: number;
+  timestamp: number;
+  memoryUsage?: number;
+}
+
+export interface MemoryInfo {
+  used: number;
+  total: number;
+  percentage: number;
+}
+
+export interface LogAnalytics {
+  totalLogs: number;
+  logsByLevel: Record<LogLevel, number>;
+  averageLogRate: number;
+  errorRate: number;
+  topContexts: Array<{ context: string; count: number }>;
 }
 
 export class Logger {
@@ -28,6 +56,14 @@ export class Logger {
   private useTimestamp: boolean;
   private context?: string;
   private interceptors: LogInterceptor[];
+  private enablePerformanceTracking: boolean;
+  private enableMemoryTracking: boolean;
+  private maxLogHistory: number;
+  private enableLogAnalytics: boolean;
+  private logHistory: LogEntry[];
+  private sessionId: string;
+  private performanceMarks: Map<string, number>;
+  private analytics: LogAnalytics;
   
   private readonly levels: Record<LogLevel, number> = {
     debug: 0,
@@ -47,7 +83,21 @@ export class Logger {
     this.level = options.level || 'info';
     this.enabled = options.enabled !== false;
     this.useTimestamp = options.useTimestamp || false;
+    this.enablePerformanceTracking = options.enablePerformanceTracking || false;
+    this.enableMemoryTracking = options.enableMemoryTracking || false;
+    this.maxLogHistory = options.maxLogHistory || 1000;
+    this.enableLogAnalytics = options.enableLogAnalytics || false;
     this.interceptors = [];
+    this.logHistory = [];
+    this.sessionId = this.generateSessionId();
+    this.performanceMarks = new Map();
+    this.analytics = {
+      totalLogs: 0,
+      logsByLevel: { debug: 0, info: 0, warn: 0, error: 0 },
+      averageLogRate: 0,
+      errorRate: 0,
+      topContexts: []
+    };
   }
 
   /**
@@ -81,6 +131,135 @@ export class Logger {
   onLog(callback: LogInterceptor): Logger {
     this.interceptors.push(callback);
     return this;
+  }
+
+  /**
+   * Generate a unique session ID
+   */
+  private generateSessionId(): string {
+    return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+  }
+
+  /**
+   * Get memory usage information
+   */
+  private getMemoryInfo(): MemoryInfo | undefined {
+    if (!this.enableMemoryTracking) return undefined;
+    
+    // Browser environment
+    if (typeof window !== 'undefined' && (performance as any).memory) {
+      const memory = (performance as any).memory;
+      return {
+        used: memory.usedJSHeapSize,
+        total: memory.totalJSHeapSize,
+        percentage: Math.round((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100)
+      };
+    }
+    
+    // Node.js environment
+    if (typeof process !== 'undefined' && process.memoryUsage) {
+      const memory = process.memoryUsage();
+      return {
+        used: memory.heapUsed,
+        total: memory.heapTotal,
+        percentage: Math.round((memory.heapUsed / memory.heapTotal) * 100)
+      };
+    }
+    
+    return undefined;
+  }
+
+  /**
+   * Start performance tracking for a specific operation
+   */
+  startPerformanceTimer(label: string): Logger {
+    if (this.enablePerformanceTracking) {
+      this.performanceMarks.set(label, Date.now());
+    }
+    return this;
+  }
+
+  /**
+   * End performance tracking and log the duration
+   */
+  endPerformanceTimer(label: string, message?: string): Logger {
+    if (this.enablePerformanceTracking && this.performanceMarks.has(label)) {
+      const startTime = this.performanceMarks.get(label)!;
+      const duration = Date.now() - startTime;
+      this.performanceMarks.delete(label);
+      
+      const perfMessage = message || `Performance: ${label} completed`;
+      this.info(perfMessage, { 
+        performanceTimer: label,
+        duration: `${duration}ms`,
+        timestamp: Date.now()
+      });
+    }
+    return this;
+  }
+
+  /**
+   * Log with automatic stack trace capture
+   */
+  trace(message: string, data?: any): LogEntry | null {
+    const stackTrace = new Error().stack;
+    return this.log('debug', message, data, stackTrace);
+  }
+
+  /**
+   * Get current analytics data
+   */
+  getAnalytics(): LogAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get log history
+   */
+  getLogHistory(): LogEntry[] {
+    return [...this.logHistory];
+  }
+
+  /**
+   * Clear log history
+   */
+  clearHistory(): Logger {
+    this.logHistory = [];
+    return this;
+  }
+
+  /**
+   * Export logs as JSON
+   */
+  exportLogs(): string {
+    return JSON.stringify({
+      sessionId: this.sessionId,
+      exportedAt: new Date().toISOString(),
+      analytics: this.analytics,
+      logs: this.logHistory
+    }, null, 2);
+  }
+
+  /**
+   * Search logs by criteria
+   */
+  searchLogs(criteria: {
+    level?: LogLevel;
+    context?: string;
+    message?: string;
+    timeRange?: { start: Date; end: Date };
+  }): LogEntry[] {
+    return this.logHistory.filter(entry => {
+      if (criteria.level && entry.level !== criteria.level) return false;
+      if (criteria.context && entry.context !== criteria.context) return false;
+      if (criteria.message && !entry.message.includes(criteria.message)) return false;
+      if (criteria.timeRange) {
+        if (entry.timestamp < criteria.timeRange.start || entry.timestamp > criteria.timeRange.end) {
+          return false;
+        }
+      }
+      return true;
+    });
   }
 
   /**
@@ -126,7 +305,7 @@ export class Logger {
   /**
    * Internal log method
    */
-  private log(level: LogLevel, message: string, data?: any): LogEntry | null {
+  private log(level: LogLevel, message: string, data?: any, stackTrace?: string): LogEntry | null {
     if (!this.shouldLog(level)) {
       return null;
     }
@@ -140,8 +319,33 @@ export class Logger {
       context: this.context,
       data,
       timestamp,
-      formatted
+      formatted,
+      sessionId: this.sessionId,
+      stackTrace: stackTrace
     };
+
+    // Add performance and memory tracking
+    if (this.enablePerformanceTracking) {
+      logEntry.performance = {
+        timestamp: Date.now(),
+        memoryUsage: this.enableMemoryTracking ? this.getMemoryInfo()?.used : undefined
+      };
+    }
+
+    if (this.enableMemoryTracking) {
+      logEntry.memory = this.getMemoryInfo();
+    }
+
+    // Update analytics
+    if (this.enableLogAnalytics) {
+      this.updateAnalytics(level, this.context);
+    }
+
+    // Add to history
+    this.logHistory.push(logEntry);
+    if (this.logHistory.length > this.maxLogHistory) {
+      this.logHistory.shift();
+    }
 
     // Call interceptors
     this.interceptors.forEach(interceptor => {
@@ -159,6 +363,30 @@ export class Logger {
     this.outputToConsole(level, formatted);
     
     return logEntry;
+  }
+
+  /**
+   * Update analytics data
+   */
+  private updateAnalytics(level: LogLevel, context?: string): void {
+    this.analytics.totalLogs++;
+    this.analytics.logsByLevel[level]++;
+    
+    if (level === 'error') {
+      this.analytics.errorRate = (this.analytics.logsByLevel.error / this.analytics.totalLogs) * 100;
+    }
+
+    if (context) {
+      const existingContext = this.analytics.topContexts.find(c => c.context === context);
+      if (existingContext) {
+        existingContext.count++;
+      } else {
+        this.analytics.topContexts.push({ context, count: 1 });
+      }
+      // Keep only top 10 contexts
+      this.analytics.topContexts.sort((a, b) => b.count - a.count);
+      this.analytics.topContexts = this.analytics.topContexts.slice(0, 10);
+    }
   }
 
   /**
