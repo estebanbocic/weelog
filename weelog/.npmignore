@@ -1,0 +1,39 @@
+# Development files
+rollup.config.js
+tsconfig.json
+.eslintrc.js
+.prettierrc
+jest.config.js
+
+# Source files (we include dist/ instead)
+src/
+
+# Demo files
+demo/
+
+# Development dependencies
+node_modules/
+*.log
+*.tgz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Testing
+coverage/
+*.test.js
+__tests__/
+
+# Build artifacts
+*.map
