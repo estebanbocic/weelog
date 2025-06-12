@@ -76,11 +76,11 @@ logger.withContext('Auth').warn("Session expired");`;
     <section className="bg-gradient-to-b from-blue-50 to-white py-16">
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Tiny, Powerful Logging for JavaScript
+          Next-Generation JavaScript Logging
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-          Lightweight, browser and Node.js compatible logging library with context support, 
-          level control, and colorized console output.
+          Beyond basic logging: Performance tracking, memory monitoring, real-time analytics, 
+          and smart search capabilities in one lightweight package.
         </p>
         <p className="text-sm sm:text-base lg:text-lg text-blue-600 font-medium mb-6">
           Available on NPM
