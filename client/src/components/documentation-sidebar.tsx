@@ -113,7 +113,7 @@ logger.error('Something went wrong');`}</code>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Features</h4>
+                  <h4 className="font-medium text-gray-900 mb-2">Core Features</h4>
                   <ul className="space-y-2 text-sm text-gray-600">
                     <li className="flex items-center">
                       <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
@@ -162,12 +162,18 @@ logger.error('Something went wrong');`}</code>
                       <li>• <code>level</code>: 'debug' | 'info' | 'warn' | 'error' (default: 'info')</li>
                       <li>• <code>enabled</code>: boolean (default: true)</li>
                       <li>• <code>useTimestamp</code>: boolean (default: false)</li>
+                      <li>• <code>enablePerformanceTracking</code>: boolean (default: false)</li>
+                      <li>• <code>enableMemoryTracking</code>: boolean (default: false)</li>
+                      <li>• <code>enableLogAnalytics</code>: boolean (default: false)</li>
                     </ul>
                   </div>
                   <div className="bg-gray-100 rounded-lg p-3 mt-3 overflow-x-auto">
                     <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                       <code>{`const logger = new Logger({
   level: 'debug',
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  enableLogAnalytics: true,
   enabled: true,
   useTimestamp: true
 });`}</code>

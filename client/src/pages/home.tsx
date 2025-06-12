@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
+import { FeaturesShowcase } from "@/components/features-showcase";
 import { DemoSection } from "@/components/demo-section";
 import { DocumentationSidebar } from "@/components/documentation-sidebar";
 import { Footer } from "@/components/footer";
