@@ -178,6 +178,23 @@ const advancedLogger = new Logger({
 });
 ```
 
+## 🧪 Testing & Validation
+
+WeeLog includes comprehensive test files that validate all documentation examples:
+
+```bash
+# Run all tests (ES modules + CommonJS)
+npm test
+
+# Test ES modules only
+npm run test:esm
+
+# Test CommonJS only  
+npm run test:cjs
+```
+
+The test files (`test-documentation.mjs` and `test-documentation.cjs`) verify every code example in this README works correctly with the actual library.
+
 ## 📝 License
 
 MIT License - see LICENSE file for details.
