@@ -136,8 +136,8 @@ logger.error('Something went wrong');`}</code>
                       <li>• <code>useTimestamp</code>: boolean (default: false)</li>
                     </ul>
                   </div>
-                  <div className="bg-gray-100 rounded-lg p-3 mt-3">
-                    <pre className="font-mono text-sm text-gray-800">
+                  <div className="bg-gray-100 rounded-lg p-3 mt-3 overflow-x-auto">
+                    <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                       <code>{`const logger = new Logger({
   level: 'debug',
   enabled: true,
@@ -151,26 +151,26 @@ logger.error('Something went wrong');`}</code>
                   <h4 className="font-medium text-gray-900 mb-2">Logging Methods</h4>
                   <div className="space-y-3">
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.debug(message: string, data?: any)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.debug(message: string, data?: any)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Logs debug information. Only shown when level is 'debug'.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.info(message: string, data?: any)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.info(message: string, data?: any)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Logs general information. Shown when level is 'debug' or 'info'.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.warn(message: string, data?: any)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.warn(message: string, data?: any)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Logs warnings. Shown when level is 'debug', 'info', or 'warn'.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.error(message: string, data?: any)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.error(message: string, data?: any)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Logs errors. Always shown regardless of level.</p>
                     </div>
@@ -181,26 +181,26 @@ logger.error('Something went wrong');`}</code>
                   <h4 className="font-medium text-gray-900 mb-2">Control Methods</h4>
                   <div className="space-y-3">
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.setLevel(level: LogLevel)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.setLevel(level: LogLevel)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Changes the minimum log level. Returns the logger instance for chaining.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.enable(enabled: boolean)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.enable(enabled: boolean)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Enables or disables all logging. Returns the logger instance for chaining.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.withContext(context: string)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.withContext(context: string)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Creates a new logger instance with the specified context prefix.</p>
                     </div>
                     <div>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <code className="font-mono text-sm text-gray-800">logger.onLog(callback: LogInterceptor)</code>
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <code className="font-mono text-xs text-gray-800 break-words">logger.onLog(callback: LogInterceptor)</code>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">Adds an interceptor function called for every log entry. Returns the logger instance.</p>
                     </div>
@@ -212,8 +212,8 @@ logger.error('Something went wrong');`}</code>
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm font-medium text-gray-700 mb-2">Context Logging</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`const apiLogger = logger.withContext('API');
 apiLogger.info('Request started', { url: '/users' });
 // Output: [INFO] [API] Request started {"url":"/users"}`}</code>
@@ -222,8 +222,8 @@ apiLogger.info('Request started', { url: '/users' });
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-700 mb-2">Log Interception</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`logger.onLog((level, message, context, data) => {
   // Send to analytics, save to file, etc.
   analytics.track('log_event', {
@@ -235,8 +235,8 @@ apiLogger.info('Request started', { url: '/users' });
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-700 mb-2">Method Chaining</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`const prodLogger = new Logger()
   .setLevel('warn')
   .enable(process.env.NODE_ENV !== 'test')
