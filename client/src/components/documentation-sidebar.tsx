@@ -591,16 +591,19 @@ export class UserComponent {
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Environment-based Configuration</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// utils/logger.js
 import Logger from 'weelog';
 
-const isDevelopment = import.meta.env.DEV || process.env.NODE_ENV === 'development';
-const isProduction = import.meta.env.PROD || process.env.NODE_ENV === 'production';
+const isDevelopment = import.meta.env.DEV || 
+  process.env.NODE_ENV === 'development';
+const isProduction = import.meta.env.PROD || 
+  process.env.NODE_ENV === 'production';
 
 export const logger = new Logger({
-  level: isDevelopment ? 'debug' : isProduction ? 'error' : 'info',
+  level: isDevelopment ? 'debug' : 
+         isProduction ? 'error' : 'info',
   enabled: !import.meta.env.SSR, // Disable in SSR
   useTimestamp: true
 });
@@ -611,10 +614,12 @@ if (isProduction) {
     if (level === 'error') {
       // Send to error tracking service
       if (window.Sentry) {
-        window.Sentry.captureException(new Error(message), {
-          tags: { context },
-          extra: data
-        });
+        window.Sentry.captureException(
+          new Error(message), {
+            tags: { context },
+            extra: data
+          }
+        );
       }
     }
   });
