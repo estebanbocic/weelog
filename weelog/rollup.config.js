@@ -19,9 +19,10 @@ export default [
   {
     input: 'src/weelog.ts',
     output: {
-      file: 'dist/weelog.cjs.js',
+      file: 'dist/weelog.cjs',
       format: 'cjs',
-      sourcemap: true
+      sourcemap: true,
+      exports: 'named'
     },
     plugins: [typescript({
       importHelpers: false,
