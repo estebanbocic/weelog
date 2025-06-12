@@ -458,5 +458,18 @@ export class Logger {
   }
 }
 
+// Create a default logger instance for convenience functions
+const defaultLogger = new Logger();
+
+// Named exports for individual logging functions
+export const log = (message: string, data?: any) => defaultLogger.info(message, data);
+export const info = (message: string, data?: any) => defaultLogger.info(message, data);
+export const warn = (message: string, data?: any) => defaultLogger.warn(message, data);
+export const error = (message: string, data?: any) => defaultLogger.error(message, data);
+export const debug = (message: string, data?: any) => defaultLogger.debug(message, data);
+export const success = (message: string, data?: any) => defaultLogger.info(`✅ ${message}`, data);
+
+// Types are already exported inline above
+
 // Default export for easy importing
 export default Logger;
