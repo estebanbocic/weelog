@@ -9,6 +9,7 @@ export interface LoggerOptions {
   useTimestamp?: boolean;
   enablePerformanceTracking?: boolean;
   enableMemoryTracking?: boolean;
+  logMemoryInline?: boolean;
   maxLogHistory?: number;
   enableLogAnalytics?: boolean;
 }
@@ -58,6 +59,7 @@ export class Logger {
   private interceptors: LogInterceptor[];
   private enablePerformanceTracking: boolean;
   private enableMemoryTracking: boolean;
+  private logMemoryInline: boolean;
   private maxLogHistory: number;
   private enableLogAnalytics: boolean;
   private logHistory: LogEntry[];
@@ -85,6 +87,7 @@ export class Logger {
     this.useTimestamp = options.useTimestamp || false;
     this.enablePerformanceTracking = options.enablePerformanceTracking || false;
     this.enableMemoryTracking = options.enableMemoryTracking || false;
+    this.logMemoryInline = options.logMemoryInline || false;
     this.maxLogHistory = options.maxLogHistory || 1000;
     this.enableLogAnalytics = options.enableLogAnalytics || false;
     this.interceptors = [];
@@ -167,6 +170,23 @@ export class Logger {
     }
     
     return undefined;
+  }
+
+  /**
+   * Format memory usage for inline display
+   */
+  private formatMemoryUsage(): string {
+    if (!this.logMemoryInline) {
+      return '';
+    }
+
+    const memoryInfo = this.getMemoryInfo();
+    if (!memoryInfo) {
+      return '';
+    }
+
+    const memoryMB = (memoryInfo.used / 1024 / 1024).toFixed(2);
+    return ` (Memory: ${memoryMB} MB)`;
   }
 
   /**
@@ -286,6 +306,11 @@ export class Logger {
     }
     
     formatted += ` ${message}`;
+    
+    // Add inline memory usage if enabled
+    if (this.logMemoryInline) {
+      formatted += this.formatMemoryUsage();
+    }
     
     if (data !== undefined && data !== null) {
       if (typeof data === 'object') {
