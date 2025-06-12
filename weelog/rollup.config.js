@@ -1,5 +1,4 @@
 import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
 
 export default [
   // ES Module build
@@ -42,7 +41,7 @@ export default [
     plugins: [typescript({
       importHelpers: false,
       noEmitHelpers: true
-    }), terser()],
+    })],
     external: []
   }
 ];
