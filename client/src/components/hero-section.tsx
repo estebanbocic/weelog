@@ -1,6 +1,56 @@
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 export function HeroSection() {
+  const [displayText, setDisplayText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  
+  const fullText = `import Logger from 'weelog';
+
+const logger = new Logger({
+  level: 'info',
+  enabled: true,
+  useTimestamp: true
+});
+
+logger.info("App started successfully");
+logger.withContext('Auth').warn("Session expired");`;
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    let currentIndex = 0;
+    let isTyping = true;
+
+    const typeText = () => {
+      if (currentIndex <= fullText.length && isTyping) {
+        setDisplayText(fullText.slice(0, currentIndex));
+        currentIndex++;
+        timeoutId = setTimeout(typeText, 4000 / fullText.length); // 4 seconds total
+      } else if (isTyping) {
+        // Finished typing, wait 10 seconds
+        isTyping = false;
+        timeoutId = setTimeout(() => {
+          currentIndex = 0;
+          isTyping = true;
+          setDisplayText('');
+          typeText();
+        }, 10000);
+      }
+    };
+
+    typeText();
+
+    // Cursor blinking effect
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(cursorInterval);
+    };
+  }, []);
+
   const scrollToDemo = () => {
     const element = document.getElementById('demo');
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -28,17 +78,13 @@ export function HeroSection() {
           </div>
         </div>
         <div className="bg-gray-900 rounded-xl p-6 text-left max-w-2xl mx-auto mb-8">
-          <pre className="text-green-400 font-mono text-sm">
-            <code>{`import Logger from 'weelog';
-
-const logger = new Logger({
-  level: 'info',
-  enabled: true,
-  useTimestamp: true
-});
-
-logger.info("App started successfully");
-logger.withContext('Auth').warn("Session expired");`}</code>
+          <pre className="text-green-400 font-mono text-sm min-h-[200px]">
+            <code>
+              {displayText}
+              <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>
+                |
+              </span>
+            </code>
           </pre>
         </div>
         <div className="flex justify-center space-x-4">
