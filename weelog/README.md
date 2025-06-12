@@ -17,13 +17,25 @@ Next-generation JavaScript logging library with performance tracking, memory mon
 npm install weelog
 ```
 
-### Basic Usage
+### Named Function Imports
+
+```javascript
+import { log, info, warn, error, debug, success } from 'weelog';
+
+debug('Debug message');
+info('Information message');
+warn('Warning message');
+error('Error message');
+success('Success message');
+```
+
+### Logger Class Usage
 
 ```javascript
 import Logger from 'weelog';
 
 const logger = new Logger({
-  level: 'info',
+  level: 'debug',
   useTimestamp: true
 });
 
