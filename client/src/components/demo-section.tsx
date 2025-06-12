@@ -109,6 +109,20 @@ export function DemoSection() {
           <p className="text-sm text-gray-600 mt-1">Test all WeeLog features in real-time</p>
         </div>
         
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 border-b border-green-200 px-6 py-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-700">
+              <strong>Enjoying WeeLog?</strong> Support development to keep it free and open source.
+            </p>
+            <button
+              onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
+              className="bg-green-600 text-white px-4 py-1 rounded text-sm font-medium hover:bg-green-700 transition-colors flex items-center ml-4"
+            >
+              ❤️ Donate
+            </button>
+          </div>
+        </div>
+        
         {/* Demo Controls */}
         <div className="p-6 border-b border-gray-200">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

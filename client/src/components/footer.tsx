@@ -61,21 +61,30 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-gray-900 mb-3">Installation</h4>
+            <h4 className="font-semibold text-gray-900 mb-3">Support the Project</h4>
+            <button
+              onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
+              className="w-full bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors mb-3 flex items-center justify-center"
+            >
+              ❤️ Donate via PayPal
+            </button>
             <div 
-              className="bg-gray-100 rounded-lg p-3 mb-3 cursor-pointer hover:bg-gray-200 transition-colors"
+              className="bg-gray-100 rounded-lg p-3 mb-2 cursor-pointer hover:bg-gray-200 transition-colors"
               onClick={copyInstallCommand}
             >
-              <code className="font-mono text-sm text-gray-800">npm install weelog</code>
+              <code className="font-mono text-xs text-gray-800">npm install weelog</code>
             </div>
             <p className="text-xs text-gray-500">
-              Version 1.0.0 • MIT License • 2KB gzipped
+              Support open source development
             </p>
           </div>
         </div>
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
           <p className="text-gray-500 text-sm">
             © 2024 WeeLog. Built with ❤️ for developers everywhere.
+          </p>
+          <p className="text-gray-400 text-xs mt-2">
+            Support open source development • PayPal donations help keep this project free
           </p>
         </div>
       </div>

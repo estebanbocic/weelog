@@ -62,6 +62,12 @@ logger.withContext('Auth').warn("Session expired");`}</code>
           >
             View on NPM
           </Button>
+          <Button 
+            onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
+            className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center"
+          >
+            ❤️ Support Project
+          </Button>
         </div>
       </div>
     </section>

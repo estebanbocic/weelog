@@ -41,7 +41,7 @@ export function Header() {
               onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center"
             >
-              <Heart className="w-4 h-4 mr-1" />
+              ❤️
               Donate
             </Button>
           </div>

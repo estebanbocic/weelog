@@ -48,7 +48,7 @@ export function DocumentationSidebar() {
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
               
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
                   <span className="text-sm font-medium text-green-800">Now available on NPM!</span>
@@ -56,6 +56,22 @@ export function DocumentationSidebar() {
                 <p className="text-xs text-green-600 mt-1">
                   WeeLog is officially published and ready for production use.
                 </p>
+              </div>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-blue-800">Support Development</span>
+                  <span className="text-xs text-blue-600">❤️</span>
+                </div>
+                <p className="text-xs text-blue-600 mb-3">
+                  Help keep WeeLog free and open source by supporting the developer.
+                </p>
+                <button
+                  onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
+                  className="w-full bg-blue-600 text-white px-3 py-2 rounded text-xs font-medium hover:bg-blue-700 transition-colors"
+                >
+                  Donate via PayPal
+                </button>
               </div>
               
               <div className="space-y-6">
