@@ -48,6 +48,16 @@ export function DocumentationSidebar() {
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
               
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-6">
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                  <span className="text-sm font-medium text-green-800">Now available on NPM!</span>
+                </div>
+                <p className="text-xs text-green-600 mt-1">
+                  WeeLog is officially published and ready for production use.
+                </p>
+              </div>
+              
               <div className="space-y-6">
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Installation</h4>
