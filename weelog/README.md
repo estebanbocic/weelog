@@ -1,4 +1,4 @@
-# WeeLog 2.0 🚀
+# WeeLog 2.0.1 🚀
 
 Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.
 
