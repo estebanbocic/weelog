@@ -232,6 +232,3 @@ export class Logger {
 
 // Default export for easy importing
 export default Logger;
-
-// Named export for explicit importing
-export { Logger };
