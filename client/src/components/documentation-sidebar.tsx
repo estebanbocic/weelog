@@ -42,7 +42,7 @@ export function DocumentationSidebar() {
         </div>
         
         {/* Tab Content */}
-        <div className="h-96 overflow-y-auto">
+        <div className="h-96 overflow-y-auto overflow-x-hidden">
           {/* Getting Started Tab */}
           {activeTab === 'getting-started' && (
             <div className="p-6">
@@ -264,8 +264,8 @@ apiLogger.info('Request started', { url: '/users' });
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Custom Hook for React Components</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// hooks/useLogger.js
 import { useMemo } from 'react';
 import Logger from 'weelog';
@@ -273,11 +273,14 @@ import Logger from 'weelog';
 export function useLogger(context, options = {}) {
   return useMemo(() => {
     const logger = new Logger({
-      level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
+      level: process.env.NODE_ENV === 'development' 
+        ? 'debug' : 'warn',
       useTimestamp: true,
       ...options
     });
-    return context ? logger.withContext(context) : logger;
+    return context 
+      ? logger.withContext(context) 
+      : logger;
   }, [context, options]);
 }
 
@@ -297,8 +300,8 @@ function UserProfile({ userId }) {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Global Logger Provider</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// context/LoggerContext.js
 import { createContext, useContext } from 'react';
 import Logger from 'weelog';
@@ -318,7 +321,8 @@ export function LoggerProvider({ children }) {
   );
 }
 
-export const useGlobalLogger = () => useContext(LoggerContext);`}</code>
+export const useGlobalLogger = () => 
+  useContext(LoggerContext);`}</code>
                         </pre>
                       </div>
                     </div>
@@ -333,8 +337,8 @@ export const useGlobalLogger = () => useContext(LoggerContext);`}</code>
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Vue 3 Composable</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// composables/useLogger.js
 import { ref, computed } from 'vue';
 import Logger from 'weelog';
@@ -347,28 +351,35 @@ export function useLogger(context = null, options = {}) {
   }));
   
   const contextLogger = computed(() => 
-    context ? logger.value.withContext(context) : logger.value
+    context ? logger.value.withContext(context) 
+            : logger.value
   );
   
   return {
     logger: contextLogger.value,
-    debug: (msg, data) => contextLogger.value.debug(msg, data),
-    info: (msg, data) => contextLogger.value.info(msg, data),
-    warn: (msg, data) => contextLogger.value.warn(msg, data),
-    error: (msg, data) => contextLogger.value.error(msg, data)
+    debug: (msg, data) => 
+      contextLogger.value.debug(msg, data),
+    info: (msg, data) => 
+      contextLogger.value.info(msg, data),
+    warn: (msg, data) => 
+      contextLogger.value.warn(msg, data),
+    error: (msg, data) => 
+      contextLogger.value.error(msg, data)
   };
 }
 
 // Usage in component
 export default {
   setup() {
-    const { logger, info, error } = useLogger('UserComponent');
+    const { logger, info, error } = 
+      useLogger('UserComponent');
     
     const fetchData = async () => {
       info('Fetching user data');
       try {
         const response = await api.getUsers();
-        info('Data fetched successfully', { count: response.length });
+        info('Data fetched successfully', 
+          { count: response.length });
       } catch (err) {
         error('Failed to fetch data', err);
       }
@@ -382,8 +393,8 @@ export default {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Vue Plugin</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// plugins/logger.js
 import Logger from 'weelog';
 
@@ -420,8 +431,8 @@ app.use(LoggerPlugin, { level: 'debug' });`}</code>
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-600 mb-2">CommonJS Module</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// logger.js
 const Logger = require('weelog');
 
@@ -454,8 +465,8 @@ module.exports = logger;`}</code>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Express.js Middleware</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// middleware/logger.js
 const Logger = require('weelog');
 
@@ -465,9 +476,11 @@ const httpLogger = new Logger()
 
 function requestLogger(req, res, next) {
   const start = Date.now();
-  const requestId = Math.random().toString(36).substr(2, 9);
+  const requestId = Math.random()
+    .toString(36).substr(2, 9);
   
-  req.logger = httpLogger.withContext(\`HTTP:\${requestId}\`);
+  req.logger = httpLogger
+    .withContext(\`HTTP:\${requestId}\`);
   
   req.logger.info(\`\${req.method} \${req.path}\`, {
     ip: req.ip,
@@ -476,7 +489,7 @@ function requestLogger(req, res, next) {
   
   res.on('finish', () => {
     const duration = Date.now() - start;
-    req.logger.info(\`Response sent\`, {
+    req.logger.info('Response sent', {
       statusCode: res.statusCode,
       duration: \`\${duration}ms\`
     });
@@ -489,7 +502,8 @@ module.exports = requestLogger;
 
 // Usage in app.js
 const express = require('express');
-const requestLogger = require('./middleware/logger');
+const requestLogger = 
+  require('./middleware/logger');
 
 const app = express();
 app.use(requestLogger);`}</code>
@@ -507,8 +521,8 @@ app.use(requestLogger);`}</code>
                   <div className="space-y-4">
                     <div>
                       <p className="text-sm text-gray-600 mb-2">Injectable Service</p>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <pre className="font-mono text-sm text-gray-800">
+                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
+                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
                           <code>{`// services/logger.service.ts
 import { Injectable } from '@angular/core';
 import Logger from 'weelog';
@@ -556,7 +570,8 @@ import { LoggerService } from './services/logger.service';
   template: \`<div>User Component</div>\`
 })
 export class UserComponent {
-  private componentLogger = this.logger.withContext('UserComponent');
+  private componentLogger = 
+    this.logger.withContext('UserComponent');
   
   constructor(private logger: LoggerService) {
     this.componentLogger.info('Component initialized');
