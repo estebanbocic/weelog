@@ -21,7 +21,7 @@ export function Footer() {
             </div>
             <p className="text-gray-600 text-sm">
               A tiny, powerful logging library for JavaScript applications. 
-              Zero dependencies, maximum flexibility.
+              Lightweight and flexible with minimal dependencies.
             </p>
           </div>
           <div>

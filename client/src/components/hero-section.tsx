@@ -79,7 +79,7 @@ logger.withContext('Auth').warn("Session expired");`;
           Tiny, Powerful Logging for JavaScript
         </h2>
         <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-          Zero dependencies, browser and Node.js compatible logging library with context support, 
+          Lightweight, browser and Node.js compatible logging library with context support, 
           level control, and colorized console output.
         </p>
         <p className="text-lg text-blue-600 font-medium mb-6">

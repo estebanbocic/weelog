@@ -10,7 +10,11 @@ export default [
       format: 'es',
       sourcemap: true
     },
-    plugins: [typescript()]
+    plugins: [typescript({
+      importHelpers: false,
+      noEmitHelpers: true
+    })],
+    external: []
   },
   // CommonJS build
   {
@@ -20,7 +24,11 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    plugins: [typescript()]
+    plugins: [typescript({
+      importHelpers: false,
+      noEmitHelpers: true
+    })],
+    external: []
   },
   // UMD build for browsers
   {
@@ -31,6 +39,10 @@ export default [
       name: 'WeeLog',
       sourcemap: true
     },
-    plugins: [typescript(), terser()]
+    plugins: [typescript({
+      importHelpers: false,
+      noEmitHelpers: true
+    }), terser()],
+    external: []
   }
 ];
