@@ -7,6 +7,14 @@
   "module": "dist/weelog.esm.js",
   "browser": "dist/weelog.umd.js",
   "types": "dist/weelog.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/weelog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/weelog/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/weelog#readme",
   "exports": {
     ".": {
       "import": "./dist/weelog.esm.js",
