@@ -115,7 +115,7 @@ logger.error('Something went wrong');`}</code>
                   <ul className="space-y-2 text-sm text-gray-600">
                     <li className="flex items-center">
                       <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Zero dependencies
+                      Lightweight and fast
                     </li>
                     <li className="flex items-center">
                       <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>

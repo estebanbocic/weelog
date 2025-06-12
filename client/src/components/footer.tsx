@@ -75,7 +75,7 @@ export function Footer() {
               <code className="font-mono text-xs text-gray-800">npm install weelog</code>
             </div>
             <p className="text-xs text-gray-500">
-              Support open source development
+              Version 1.0.0 • MIT License • Lightweight package
             </p>
           </div>
         </div>
