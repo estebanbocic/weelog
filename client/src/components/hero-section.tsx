@@ -75,14 +75,14 @@ logger.withContext('Auth').warn("Session expired");`;
   return (
     <section className="bg-gradient-to-b from-blue-50 to-white py-16">
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
           Tiny, Powerful Logging for JavaScript
         </h2>
-        <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
           Lightweight, browser and Node.js compatible logging library with context support, 
           level control, and colorized console output.
         </p>
-        <p className="text-lg text-blue-600 font-medium mb-6">
+        <p className="text-sm sm:text-base lg:text-lg text-blue-600 font-medium mb-6">
           Available on NPM
         </p>
         
@@ -103,8 +103,8 @@ logger.withContext('Auth').warn("Session expired");`;
             Copied to clipboard!
           </div>
         </div>
-        <div className="bg-gray-900 rounded-xl p-6 text-left max-w-2xl mx-auto mb-8">
-          <pre className="text-green-400 font-mono text-sm min-h-[200px]">
+        <div className="bg-gray-900 rounded-xl p-3 sm:p-4 lg:p-6 text-left max-w-2xl mx-auto mb-8 overflow-x-auto">
+          <pre className="text-green-400 font-mono text-xs sm:text-sm min-h-[160px] sm:min-h-[200px]">
             <code>
               {displayText}
               <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>
