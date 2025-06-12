@@ -169,3 +169,37 @@
     transform: translate(120px, 120px);
   }
 }
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  body::before {
+    background-size: 150px 150px, 200px 200px, 250px 250px, 200px 200px;
+  }
+  
+  body::after {
+    background-size: 80px 80px;
+  }
+  
+  /* Improve touch targets for mobile */
+  button, .cursor-pointer {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Better text scaling for small screens */
+  .font-mono {
+    font-size: 0.75rem;
+  }
+  
+  /* Prevent horizontal overflow */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Optimize code blocks for mobile */
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
