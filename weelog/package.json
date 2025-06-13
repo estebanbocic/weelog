@@ -9,12 +9,12 @@
   "types": "dist/weelog.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/weelog.git"
+    "url": "git+https://github.com/estebanbocic/weelog.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/weelog/issues"
+    "url": "https://github.com/estebanbocic/weelog/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/weelog#readme",
+  "homepage": "https://weelog.estebanbocic.com",
   "exports": {
     ".": {
       "import": "./dist/weelog.esm.js",

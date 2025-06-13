@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/weelog.svg)](https://www.npmjs.com/package/weelog)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/YOUR_USERNAME/weelog/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/weelog/actions)
+[![Build Status](https://github.com/estebanbocic/weelog/workflows/CI/badge.svg)](https://github.com/estebanbocic/weelog/actions)
 
 **Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.**
 
