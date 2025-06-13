@@ -2,94 +2,163 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronRight } from "lucide-react";
+
+type SectionKeys = 'whatItDoes' | 'howItWorks' | 'useCases';
 
 export function FeaturesShowcase() {
   const [activeFeature, setActiveFeature] = useState(0);
+  const [expandedSections, setExpandedSections] = useState<Record<SectionKeys, boolean>>({
+    whatItDoes: false,
+    howItWorks: false,
+    useCases: false
+  });
+
+  const toggleSection = (section: SectionKeys) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   const features = [
     {
       title: "⚡ Performance Tracking",
-      description: "Built-in performance timers to measure operation durations automatically",
-      code: `logger.startPerformanceTimer('database-query');
-// Your async operation
+      description: "Measures and logs execution time for operations, functions, or code blocks with microsecond precision. Uses performance.now() for high-resolution timing without external dependencies.",
+      whatItDoes: "Measures operation execution times with microsecond precision",
+      howItWorks: "Uses performance.now() and Map-based label storage for high-resolution timing",
+      useCases: [
+        "API Response Times - Measure external service call durations",
+        "Database Queries - Track slow query performance in production", 
+        "Algorithm Optimization - Compare different implementation speeds",
+        "Bottleneck Identification - Find performance issues in complex workflows"
+      ],
+      code: `logger.startPerformanceTimer('api-call');
+// Your code here
 await fetchUserData();
-logger.endPerformanceTimer('database-query');
-// Automatically logs duration with context`,
-      highlight: "Measure code execution time effortlessly"
+logger.endPerformanceTimer('api-call', 'User data retrieved');
+// Output: [INFO] User data retrieved (45.2ms)`,
+      highlight: "Identify performance bottlenecks instantly"
     },
     {
       title: "🧠 Memory Monitoring", 
-      description: "Real-time memory usage tracking for both browser and Node.js environments",
+      description: "Tracks real-time heap memory usage in both Node.js and browser environments. Provides memory consumption analytics and optional inline display in log entries.",
+      whatItDoes: "Tracks real-time heap usage in browsers and Node.js environments",
+      howItWorks: "Uses performance.memory (browser) and process.memoryUsage() (Node.js) with formatted MB display",
+      useCases: [
+        "Memory Leak Detection - Monitor memory growth over time",
+        "Resource Optimization - Track memory usage during heavy operations",
+        "Production Monitoring - Watch for memory spikes in live applications",
+        "Capacity Planning - Understand application memory requirements"
+      ],
       code: `const logger = new Logger({
-  enableMemoryTracking: true
+  enableMemoryTracking: true,
+  logMemoryInline: true  // Shows memory in each log
 });
 
-logger.info('Process started');
-// Automatically includes memory usage data
-// Works in both browser and Node.js`,
-      highlight: "Monitor memory consumption in real-time"
+logger.info('Processing large dataset');
+// Output: [INFO] Processing large dataset (Memory: 45.7 MB)`,
+      highlight: "Detect memory leaks before they impact users"
     },
     {
       title: "📊 Live Analytics",
-      description: "Get insights into logging patterns, error rates, and context usage",
+      description: "Provides real-time insights into logging patterns, error rates, and application behavior. Automatically collects and analyzes log data to reveal trends and issues.",
+      whatItDoes: "Real-time insights into logging patterns and error rates",
+      howItWorks: "Maintains running counters and calculates statistics automatically with each log entry",
+      useCases: [
+        "Health Monitoring - Track application stability in real-time",
+        "Error Rate Alerts - Identify when error rates exceed thresholds",
+        "Component Analysis - See which parts of your app are most active", 
+        "Production Dashboards - Display live application health metrics"
+      ],
       code: `const analytics = logger.getAnalytics();
 console.log(analytics);
-// Returns:
 // {
-//   totalLogs: 150,
-//   errorRate: 2.3,
-//   logsByLevel: { info: 120, error: 30 },
-//   topContexts: [{ context: 'API', count: 45 }]
+//   totalLogs: 247,
+//   errorRate: 8.5,
+//   logsByLevel: { debug: 45, info: 156, warn: 31, error: 15 },
+//   topContexts: [
+//     { context: "API", count: 89 },
+//     { context: "Database", count: 67 }
+//   ]
 // }`,
-      highlight: "Real-time logging analytics and metrics"
+      highlight: "Monitor application health with real-time metrics"
     },
     {
       title: "🔍 Smart Log Search",
-      description: "Advanced filtering and search capabilities across your log history",
-      code: `// Search logs with multiple criteria
-const results = logger.searchLogs({
-  level: 'error',
-  context: 'Authentication',
-  message: 'failed login',
-  timeRange: { 
-    start: new Date('2024-01-01'), 
-    end: new Date() 
+      description: "Enables powerful filtering and querying across complete log history using multiple criteria. Search by level, context, message content, and time ranges with instant results.",
+      whatItDoes: "Powerful filtering across complete log history using multiple criteria",
+      howItWorks: "In-memory array filtering with AND logic for instant search results",
+      useCases: [
+        "Bug Investigation - Find all logs related to specific errors or components",
+        "Troubleshooting - Search for patterns around the time issues occurred",
+        "Performance Analysis - Filter logs by context to study component behavior",
+        "Compliance Audits - Search for specific events or user actions"
+      ],
+      code: `// Find all error logs
+const errors = logger.searchLogs({ level: 'error' });
+
+// Find API-related logs from last hour
+const recentAPI = logger.searchLogs({
+  context: 'API',
+  timeRange: {
+    start: new Date(Date.now() - 3600000),
+    end: new Date()
   }
-});`,
-      highlight: "Find specific logs with powerful search filters"
+});
+
+// Find connection-related messages
+const connections = logger.searchLogs({ message: 'connection' });`,
+      highlight: "Find critical issues faster with intelligent search"
     },
     {
       title: "📋 Stack Trace Capture",
-      description: "Automatically capture and include stack traces for debugging",
-      code: `// Automatic stack trace with debug info
-logger.trace('Debug checkpoint reached');
+      description: "Automatically captures and stores complete call stack information when logging critical events. Provides exact code location and execution path for debugging.",
+      whatItDoes: "Automatic call stack capture using JavaScript's Error object",
+      howItWorks: "Preserves execution context and file locations in both browser and Node.js",
+      useCases: [
+        "Complex Debugging - Track execution flow through multiple function calls",
+        "Error Investigation - Understand exactly where and how errors occur",
+        "Code Path Analysis - Verify correct execution routes in complex logic",
+        "Production Debugging - Capture critical checkpoints for later analysis"
+      ],
+      code: `logger.trace('Checkpoint reached in user validation', {
+  userId: 12345,
+  validationStep: 'email_verification'
+});
+// Captures and logs complete stack trace with context data
 
-// Manual error with full context
-try {
-  riskyOperation();
-} catch (error) {
-  logger.error('Operation failed', { 
-    error: error.message,
-    stack: error.stack 
-  });
-}`,
-      highlight: "Capture execution context automatically"
+// Automatic stack traces help identify:
+// - Exact function call sequence
+// - File locations and line numbers  
+// - Execution context and variables`,
+      highlight: "Debug complex issues with complete execution context"
     },
     {
       title: "💾 Export & Session Tracking",
-      description: "Export logs as JSON with session tracking for debugging across sessions",
-      code: `// Export complete session data
-const exportData = logger.exportLogs();
-// Downloads JSON file with:
-// - Session ID
-// - Complete log history  
-// - Analytics data
-// - Timestamps and metadata
+      description: "Maintains complete debugging sessions with unique identifiers and provides JSON export of all log data, analytics, and metadata for sharing and analysis.",
+      whatItDoes: "Complete session management with unique IDs and JSON export capability",
+      howItWorks: "Maintains full log history with analytics and metadata, exports comprehensive JSON",
+      useCases: [
+        "Team Collaboration - Share complete debugging sessions with colleagues",
+        "Bug Reports - Attach comprehensive log data to issue tickets",
+        "Production Issues - Export critical sessions for offline analysis",
+        "Compliance Records - Generate audit trails with complete traceability"
+      ],
+      code: `const logger = new Logger({ enableLogAnalytics: true });
 
-// Each log includes session tracking
-logger.info('User action', { userId: 123 });
-// Automatically tagged with session ID`,
-      highlight: "Export complete debugging sessions"
+// ... application runs, logs events ...
+
+// Export complete session
+const sessionData = logger.exportLogs();
+const parsed = JSON.parse(sessionData);
+
+console.log(\`Session: \${parsed.sessionId}\`);
+console.log(\`Total logs: \${parsed.logs.length}\`);
+
+// Save for sharing or analysis
+fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
+      highlight: "Share complete debugging sessions across teams"
     }
   ];
 
@@ -138,8 +207,9 @@ logger.info('User action', { userId: 123 });
             ))}
           </div>
 
-          {/* Code Preview */}
-          <div className="lg:sticky lg:top-24">
+          {/* Detailed Feature Information */}
+          <div className="lg:sticky lg:top-24 space-y-4">
+            {/* Code Preview Card */}
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900">
@@ -161,8 +231,68 @@ logger.info('User action', { userId: 123 });
                   <strong>Key Benefit:</strong> {features[activeFeature].highlight}
                 </p>
               </div>
+            </Card>
 
-              <div className="mt-6 text-center">
+            {/* Detailed Information Card */}
+            <Card className="p-6">
+              <h4 className="font-semibold text-gray-900 mb-4">Feature Details</h4>
+              
+              {/* What It Does */}
+              <div className="mb-4">
+                <button
+                  onClick={() => toggleSection('whatItDoes')}
+                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <span className="font-medium text-gray-900">What It Does</span>
+                  {expandedSections.whatItDoes ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                </button>
+                {expandedSections.whatItDoes && (
+                  <div className="mt-3 p-3 bg-white border rounded-lg">
+                    <p className="text-sm text-gray-700">{features[activeFeature].whatItDoes}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* How It Works */}
+              <div className="mb-4">
+                <button
+                  onClick={() => toggleSection('howItWorks')}
+                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <span className="font-medium text-gray-900">How It Works</span>
+                  {expandedSections.howItWorks ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                </button>
+                {expandedSections.howItWorks && (
+                  <div className="mt-3 p-3 bg-white border rounded-lg">
+                    <p className="text-sm text-gray-700">{features[activeFeature].howItWorks}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Use Cases */}
+              <div className="mb-4">
+                <button
+                  onClick={() => toggleSection('useCases')}
+                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <span className="font-medium text-gray-900">When to Use</span>
+                  {expandedSections.useCases ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                </button>
+                {expandedSections.useCases && (
+                  <div className="mt-3 p-3 bg-white border rounded-lg">
+                    <ul className="text-sm text-gray-700 space-y-2">
+                      {features[activeFeature].useCases.map((useCase, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-blue-500 mr-2">•</span>
+                          <span>{useCase}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className="text-center">
                 <Button 
                   onClick={() => window.open('https://www.npmjs.com/package/weelog', '_blank')}
                   className="bg-blue-600 text-white hover:bg-blue-700"
