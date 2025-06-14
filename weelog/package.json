@@ -1,6 +1,6 @@
 {
   "name": "weelog",
-  "version": "2.0.4",
+  "version": "2.0.3",
   "description": "Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.",
   "type": "module",
   "main": "dist/weelog.cjs",
