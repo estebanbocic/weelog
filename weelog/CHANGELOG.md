@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated package version for deployment
 - Ready for NPM publication
 
+## [2.0.4] - 2025-06-14
+
+### Changed
+- Force NPM metadata refresh for repository and homepage URLs
+- Updated package repository URL to https://github.com/estebanbocic/weelog
+- Updated homepage URL to https://weelog.estebanbocic.com
+- Improved NPM package metadata for better discoverability
+
 ## [2.0.3] - 2025-06-14
 
 ### Changed
