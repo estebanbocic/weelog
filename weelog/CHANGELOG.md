@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated package version for deployment
 - Ready for NPM publication
 
+## [2.0.5] - 2025-06-14
+
+### Changed
+- Enhanced README support section with comprehensive help resources
+- Added direct links to documentation, GitHub discussions, and live demo
+- Improved getting help guidance for users
+
 ## [2.0.4] - 2025-06-14
 
 ### Changed

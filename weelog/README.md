@@ -243,9 +243,18 @@ MIT License - see LICENSE file for details.
 
 ## 🤝 Support
 
-- 📚 [Documentation](https://your-docs-site.com)
-- 🐛 [Issues](https://github.com/your-repo/issues)
-- 💬 [Discussions](https://github.com/your-repo/discussions)
+- 📚 [Documentation & Demo](https://weelog.estebanbocic.com)
+- 🐛 [Report Issues](https://github.com/estebanbocic/weelog/issues)
+- 💬 [Discussions](https://github.com/estebanbocic/weelog/discussions)
+- 📦 [NPM Package](https://www.npmjs.com/package/weelog)
+- ⭐ [Star on GitHub](https://github.com/estebanbocic/weelog)
+
+### Getting Help
+
+- **Questions?** Use [GitHub Discussions](https://github.com/estebanbocic/weelog/discussions)
+- **Bug Reports?** Create an [Issue](https://github.com/estebanbocic/weelog/issues)
+- **Feature Requests?** Start a [Discussion](https://github.com/estebanbocic/weelog/discussions) or [Issue](https://github.com/estebanbocic/weelog/issues)
+- **Live Demo:** Try all features at [weelog.estebanbocic.com](https://weelog.estebanbocic.com)
 
 ---
 
