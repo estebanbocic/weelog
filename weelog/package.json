@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/estebanbocic/weelog/issues"
   },
-  "homepage": "https://weelog.estebanbocic.com",
+  "homepage": "https://weelog.estebanbocic.com/",
   "exports": {
     ".": {
       "import": "./dist/weelog.esm.js",
@@ -59,14 +59,6 @@
   ],
   "author": "WeeLog Contributors",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/weelog/weelog.git"
-  },
-  "bugs": {
-    "url": "https://github.com/weelog/weelog/issues"
-  },
-  "homepage": "https://weelog.estebanbocic.com/",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.5",
     "@types/jest": "^29.5.8",
