@@ -46,8 +46,8 @@ export function DocumentationSidebar() {
             className={getTabClasses('api')}
           >
             <Code className="w-4 h-4" />
-            <span className="hidden sm:inline">API Reference</span>
-            <span className="sm:hidden">API</span>
+            <span className="hidden sm:inline">Methods & Options</span>
+            <span className="sm:hidden">Methods</span>
           </button>
           <button
             onClick={() => switchTab('frameworks')}
@@ -167,10 +167,10 @@ console.log('Error rate:', stats.errorRate + '%');`}</code>
             </div>
           )}
           
-          {/* API Reference Tab */}
+          {/* Methods & Options Tab */}
           {activeTab === 'api' && (
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">API Reference</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Methods & Configuration</h3>
               
               <div className="space-y-6">
                 <Card className="border-0 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
