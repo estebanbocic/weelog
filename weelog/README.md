@@ -6,15 +6,16 @@
 
 **Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.**
 
-## ✨ What's New in 2.0
+## ✨ What's New in 2.1.0
 
 - **⚡ Performance Tracking**: Built-in timers to measure operation durations
 - **🧠 Memory Monitoring**: Real-time memory usage tracking for browser & Node.js
-- **💾 Inline Memory Display**: Live memory usage shown in each log entry (new in 2.0.2)
+- **💾 Inline Memory Display**: Live memory usage shown in each log entry
 - **📊 Live Analytics**: Error rates, log patterns, and context insights
 - **🔍 Smart Search**: Advanced filtering across log history
 - **📋 Stack Traces**: Automatic capture for debugging
 - **💾 Session Tracking**: Export complete debugging sessions as JSON
+- **🌐 Enhanced Documentation**: Comprehensive guides and examples
 
 ## 🚀 Quick Start
 

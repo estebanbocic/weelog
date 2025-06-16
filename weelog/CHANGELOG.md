@@ -5,7 +5,21 @@ All notable changes to WeeLog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.4] - 2025-06-14
+## [2.1.0] - 2025-06-16
+
+### Added
+- Enhanced documentation website with comprehensive feature guides
+- Professional tabbed interface for documentation sections
+- In-depth feature explanations with practical examples
+- Improved code examples and framework integration guides
+- Clean repository structure with proper npm exclusions
+
+### Changed
+- Updated website documentation to reflect all advanced features
+- Reorganized documentation sections for better user experience
+- Enhanced README with complete API reference and usage examples
+
+## [2.0.5] - 2025-06-14
 
 ### Changed
 - Updated package version for deployment
