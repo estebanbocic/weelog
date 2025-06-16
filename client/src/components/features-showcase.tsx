@@ -202,12 +202,17 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
               return (
                 <Card
                   key={index}
-                  className={`cursor-pointer transition-all duration-200 h-24 ${
+                  className={`cursor-pointer transition-all duration-300 h-24 border-0 ${
                     activeFeature === index
-                      ? 'ring-2 ring-blue-500 shadow-lg scale-[1.02]'
-                      : 'hover:shadow-md hover:scale-[1.01]'
+                      ? 'shadow-xl scale-[1.03] bg-white'
+                      : 'hover:shadow-lg hover:scale-[1.01] bg-white/80'
                   }`}
                   onClick={() => setActiveFeature(index)}
+                  style={{
+                    background: activeFeature === index 
+                      ? `linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)`
+                      : 'rgba(255,255,255,0.8)'
+                  }}
                 >
                   <div className="p-4 h-full flex items-center gap-3">
                     <div className={`p-2 rounded-lg bg-gradient-to-r ${feature.gradient} text-white shadow-md flex-shrink-0`}>
@@ -229,7 +234,7 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
                     </div>
                   </div>
                   {activeFeature === index && (
-                    <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
+                    <div className={`h-1 bg-gradient-to-r ${feature.gradient} opacity-80`} />
                   )}
                 </Card>
               );
@@ -238,9 +243,19 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
 
           {/* Right Side: Expanded Code Example */}
           <div className="lg:col-span-3 lg:sticky lg:top-8">
-            <Card className="overflow-hidden border-0 shadow-2xl min-h-[600px]">
-              <div className={`bg-gradient-to-r ${features[activeFeature].gradient} p-1`}>
-                <div className="bg-white rounded-lg p-6">
+            <Card className="overflow-hidden shadow-2xl min-h-[600px] border-0">
+              <div 
+                className="p-1 rounded-lg"
+                style={{
+                  background: `linear-gradient(135deg, ${features[activeFeature].gradient.includes('yellow') ? '#fbbf24, #f59e0b' : 
+                    features[activeFeature].gradient.includes('purple') ? '#a855f7, #ec4899' :
+                    features[activeFeature].gradient.includes('blue') ? '#3b82f6, #06b6d4' :
+                    features[activeFeature].gradient.includes('green') ? '#10b981, #059669' :
+                    features[activeFeature].gradient.includes('red') ? '#ef4444, #f43f5e' :
+                    '#6366f1, #8b5cf6'})`
+                }}
+              >
+                <div className="bg-white rounded-md p-6">
                   <div className="flex items-center gap-4 mb-6">
                     <div className={`p-3 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
                       {(() => {
@@ -272,7 +287,23 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
                     </pre>
                   </div>
                   
-                  <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg mb-4`}>
+                  <div 
+                    className="p-4 rounded-lg mb-4 border-l-4"
+                    style={{
+                      backgroundColor: `${features[activeFeature].gradient.includes('yellow') ? 'rgba(251, 191, 36, 0.1)' : 
+                        features[activeFeature].gradient.includes('purple') ? 'rgba(168, 85, 247, 0.1)' :
+                        features[activeFeature].gradient.includes('blue') ? 'rgba(59, 130, 246, 0.1)' :
+                        features[activeFeature].gradient.includes('green') ? 'rgba(16, 185, 129, 0.1)' :
+                        features[activeFeature].gradient.includes('red') ? 'rgba(239, 68, 68, 0.1)' :
+                        'rgba(99, 102, 241, 0.1)'}`,
+                      borderLeftColor: `${features[activeFeature].gradient.includes('yellow') ? '#fbbf24' : 
+                        features[activeFeature].gradient.includes('purple') ? '#a855f7' :
+                        features[activeFeature].gradient.includes('blue') ? '#3b82f6' :
+                        features[activeFeature].gradient.includes('green') ? '#10b981' :
+                        features[activeFeature].gradient.includes('red') ? '#ef4444' :
+                        '#6366f1'}`
+                    }}
+                  >
                     <p className="font-semibold text-gray-800 text-sm">
                       💡 {features[activeFeature].highlight}
                     </p>
