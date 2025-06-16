@@ -192,42 +192,41 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
           </p>
         </div>
 
-        {/* Left-Right Layout: Cards on Left, Code on Right */}
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        {/* Left-Right Layout: Compact Cards on Left, Code on Right */}
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
           
-          {/* Left Side: Feature Cards */}
-          <div className="space-y-4">
+          {/* Left Side: Compact Feature Cards */}
+          <div className="lg:col-span-2 space-y-3">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
                 <Card
                   key={index}
-                  className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
+                  className={`cursor-pointer transition-all duration-200 h-24 ${
                     activeFeature === index
-                      ? 'ring-2 ring-blue-500 shadow-xl'
-                      : 'hover:shadow-lg'
+                      ? 'ring-2 ring-blue-500 shadow-lg scale-[1.02]'
+                      : 'hover:shadow-md hover:scale-[1.01]'
                   }`}
                   onClick={() => setActiveFeature(index)}
                 >
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-r ${feature.gradient} text-white shadow-lg`}>
-                        <IconComponent className="w-6 h-6" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900">{feature.title}</h3>
-                        <p className="text-sm text-gray-500 font-medium">{feature.stats}</p>
-                      </div>
+                  <div className="p-4 h-full flex items-center gap-3">
+                    <div className={`p-2 rounded-lg bg-gradient-to-r ${feature.gradient} text-white shadow-md flex-shrink-0`}>
+                      <IconComponent className="w-5 h-5" />
                     </div>
-                    <p className="text-gray-700 mb-4 leading-relaxed">
-                      {feature.description}
-                    </p>
-                    <Badge 
-                      variant="secondary" 
-                      className={`bg-gradient-to-r ${feature.gradient} text-white border-0`}
-                    >
-                      {feature.highlight}
-                    </Badge>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-sm leading-tight mb-1 truncate">
+                        {feature.title}
+                      </h3>
+                      <p className="text-xs text-gray-500 truncate">
+                        {feature.stats}
+                      </p>
+                      <Badge 
+                        variant="secondary" 
+                        className={`text-xs bg-gradient-to-r ${feature.gradient} text-white border-0 mt-1`}
+                      >
+                        Key Feature
+                      </Badge>
+                    </div>
                   </div>
                   {activeFeature === index && (
                     <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
@@ -237,34 +236,57 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
             })}
           </div>
 
-          {/* Right Side: Code Example */}
-          <div className="lg:sticky lg:top-8">
-            <Card className="overflow-hidden border-0 shadow-2xl">
+          {/* Right Side: Expanded Code Example */}
+          <div className="lg:col-span-3 lg:sticky lg:top-8">
+            <Card className="overflow-hidden border-0 shadow-2xl min-h-[600px]">
               <div className={`bg-gradient-to-r ${features[activeFeature].gradient} p-1`}>
-                <div className="bg-white rounded-lg p-8">
+                <div className="bg-white rounded-lg p-6">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className={`p-4 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
+                    <div className={`p-3 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
                       {(() => {
                         const IconComponent = features[activeFeature].icon;
-                        return <IconComponent className="w-8 h-8" />;
+                        return <IconComponent className="w-7 h-7" />;
                       })()}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">{features[activeFeature].title}</h3>
-                      <p className="text-sm text-gray-500 font-medium">Code Example</p>
+                      <h3 className="text-xl font-bold text-gray-900">{features[activeFeature].title}</h3>
+                      <p className="text-sm text-gray-500 font-medium">{features[activeFeature].stats}</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-900 rounded-lg p-6 mb-6">
+                  <div className="mb-6">
+                    <p className="text-gray-700 leading-relaxed text-sm">
+                      {features[activeFeature].description}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-900 rounded-lg p-5 mb-6 min-h-[300px]">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <span className="text-gray-400 text-xs ml-2">example.js</span>
+                    </div>
                     <pre className="text-green-400 font-mono text-sm overflow-x-auto">
                       <code>{features[activeFeature].code}</code>
                     </pre>
                   </div>
                   
-                  <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg`}>
-                    <p className="font-semibold text-gray-800">
-                      {features[activeFeature].highlight}
+                  <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg mb-4`}>
+                    <p className="font-semibold text-gray-800 text-sm">
+                      💡 {features[activeFeature].highlight}
                     </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 text-sm mb-2">What it does:</h4>
+                      <p className="text-gray-700 text-sm">{features[activeFeature].whatItDoes}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 text-sm mb-2">How it works:</h4>
+                      <p className="text-gray-700 text-sm">{features[activeFeature].howItWorks}</p>
+                    </div>
                   </div>
                 </div>
               </div>
