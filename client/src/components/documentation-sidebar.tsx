@@ -77,7 +77,7 @@ export function DocumentationSidebar() {
                 <div className="flex items-center mb-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   <span className="text-sm font-semibold text-green-800">Production Ready</span>
-                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.1.0</Badge>
+                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.1.1</Badge>
                 </div>
                 <p className="text-sm text-green-700">
                   Professional logging library with advanced debugging capabilities for modern JavaScript applications.
@@ -108,7 +108,16 @@ export function DocumentationSidebar() {
 log('Application started');
 info('User logged in', { userId: 123 });
 warn('API rate limit approaching');
-error('Database connection failed');`}</code>
+error('Database connection failed');
+
+// With human-readable timestamps
+import Logger from 'weelog';
+const logger = new Logger({
+  useTimestamp: true,
+  useHumanReadableTimestamp: true
+});
+logger.info('User action completed');
+// Output: [Jun 16, 2025, 9:45:23 PM] [INFO] User action completed`}</code>
                       </pre>
                     </div>
                   </div>

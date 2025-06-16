@@ -5,6 +5,24 @@ All notable changes to WeeLog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-06-16
+
+### Added
+- Human-readable timestamp option with `useHumanReadableTimestamp` flag
+- Enhanced color logging with improved browser and Node.js detection
+- ANSI color support for Node.js environments
+- Better fallback handling for console styling
+
+### Changed
+- Improved timestamp formatting with user-friendly options
+- Enhanced color output reliability across different environments
+- Updated documentation with timestamp formatting examples
+
+### Fixed
+- Color logging issues in modern browsers and Node.js
+- Browser environment detection for console styling
+- Fallback behavior when console styling is not supported
+
 ## [2.1.0] - 2025-06-16
 
 ### Added
