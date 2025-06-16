@@ -8,34 +8,17 @@ type SectionKeys = 'whatItDoes' | 'howItWorks' | 'useCases';
 
 export function FeaturesShowcase() {
   const [activeFeature, setActiveFeature] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [expandedSections, setExpandedSections] = useState<Record<SectionKeys, boolean>>({
     whatItDoes: false,
     howItWorks: false,
     useCases: false
   });
 
-  // Auto-rotate features every 4 seconds
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    
-    const interval = setInterval(() => {
-      setActiveFeature(prev => (prev + 1) % features.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
-
   const toggleSection = (section: SectionKeys) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
-  };
-
-  const handleFeatureClick = (index: number) => {
-    setActiveFeature(index);
-    setIsAutoPlaying(false);
   };
 
   const features = [
@@ -201,105 +184,96 @@ fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
     <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Play className="w-4 h-4" />
-            {isAutoPlaying ? 'Auto-playing features' : 'Manual exploration'}
-          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Next-Generation Logging Features
+            Advanced Logging Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Experience advanced debugging capabilities that transform how you monitor, analyze, and optimize your JavaScript applications
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Experience powerful debugging capabilities that transform how you monitor and optimize your JavaScript applications
           </p>
-          <Button
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            variant="outline"
-            className="gap-2"
-          >
-            {isAutoPlaying ? 'Stop Auto-play' : 'Start Auto-play'}
-            <Play className="w-4 h-4" />
-          </Button>
         </div>
 
-        {/* Hero Feature Display */}
-        <div className="mb-16">
-          <Card className="overflow-hidden border-0 shadow-2xl">
-            <div className={`bg-gradient-to-r ${features[activeFeature].gradient} p-1`}>
-              <div className="bg-white rounded-lg p-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={`p-4 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
-                    {(() => {
-                      const IconComponent = features[activeFeature].icon;
-                      return <IconComponent className="w-8 h-8" />;
-                    })()}
+        {/* Left-Right Layout: Cards on Left, Code on Right */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          
+          {/* Left Side: Feature Cards */}
+          <div className="space-y-4">
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <Card
+                  key={index}
+                  className={`cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
+                    activeFeature === index
+                      ? 'ring-2 ring-blue-500 shadow-xl'
+                      : 'hover:shadow-lg'
+                  }`}
+                  onClick={() => setActiveFeature(index)}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-r ${feature.gradient} text-white shadow-lg`}>
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-gray-900">{feature.title}</h3>
+                        <p className="text-sm text-gray-500 font-medium">{feature.stats}</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-4 leading-relaxed">
+                      {feature.description}
+                    </p>
+                    <Badge 
+                      variant="secondary" 
+                      className={`bg-gradient-to-r ${feature.gradient} text-white border-0`}
+                    >
+                      {feature.highlight}
+                    </Badge>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900">{features[activeFeature].title}</h3>
-                    <p className="text-sm text-gray-500 font-medium">{features[activeFeature].stats}</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 mb-6 leading-relaxed">{features[activeFeature].description}</p>
-                
-                <div className="bg-gray-900 rounded-lg p-6 mb-6">
-                  <pre className="text-green-400 font-mono text-sm overflow-x-auto">
-                    <code>{features[activeFeature].code}</code>
-                  </pre>
-                </div>
-                
-                <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg`}>
-                  <p className="font-semibold text-gray-800">
-                    {features[activeFeature].highlight}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
+                  {activeFeature === index && (
+                    <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
+                  )}
+                </Card>
+              );
+            })}
+          </div>
 
-        {/* Feature Grid Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <Card
-                key={index}
-                className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
-                  activeFeature === index
-                    ? 'ring-2 ring-blue-500 shadow-xl'
-                    : 'hover:shadow-lg'
-                }`}
-                onClick={() => handleFeatureClick(index)}
-              >
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-3 rounded-lg bg-gradient-to-r ${feature.gradient} text-white shadow-md`}>
-                      <IconComponent className="w-6 h-6" />
+          {/* Right Side: Code Example */}
+          <div className="lg:sticky lg:top-8">
+            <Card className="overflow-hidden border-0 shadow-2xl">
+              <div className={`bg-gradient-to-r ${features[activeFeature].gradient} p-1`}>
+                <div className="bg-white rounded-lg p-8">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`p-4 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
+                      {(() => {
+                        const IconComponent = features[activeFeature].icon;
+                        return <IconComponent className="w-8 h-8" />;
+                      })()}
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">{feature.title}</h4>
-                      <p className="text-xs text-gray-500">{feature.stats}</p>
+                      <h3 className="text-2xl font-bold text-gray-900">{features[activeFeature].title}</h3>
+                      <p className="text-sm text-gray-500 font-medium">Code Example</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-                    {feature.description}
-                  </p>
-                  <Badge 
-                    variant="secondary" 
-                    className={`text-xs bg-gradient-to-r ${feature.gradient} text-white border-0`}
-                  >
-                    {feature.highlight}
-                  </Badge>
+                  
+                  <div className="bg-gray-900 rounded-lg p-6 mb-6">
+                    <pre className="text-green-400 font-mono text-sm overflow-x-auto">
+                      <code>{features[activeFeature].code}</code>
+                    </pre>
+                  </div>
+                  
+                  <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg`}>
+                    <p className="font-semibold text-gray-800">
+                      {features[activeFeature].highlight}
+                    </p>
+                  </div>
                 </div>
-                {activeFeature === index && (
-                  <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
-                )}
-              </Card>
-            );
-          })}
+              </div>
+            </Card>
+          </div>
         </div>
 
         {/* Call to Action */}
-        <div className="text-center">
+        <div className="text-center mt-16">
           <Button 
             onClick={() => window.open('https://www.npmjs.com/package/weelog', '_blank')}
             size="lg"
