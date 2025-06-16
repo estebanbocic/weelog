@@ -6,7 +6,7 @@
 
 **Next-generation JavaScript logging library with performance tracking, memory monitoring, analytics, and advanced debugging features.**
 
-## ✨ What's New in 2.1.0
+## ✨ What's New in 2.1.1
 
 - **⚡ Performance Tracking**: Built-in timers to measure operation durations
 - **🧠 Memory Monitoring**: Real-time memory usage tracking for browser & Node.js
@@ -16,6 +16,8 @@
 - **📋 Stack Traces**: Automatic capture for debugging
 - **💾 Session Tracking**: Export complete debugging sessions as JSON
 - **🌐 Enhanced Documentation**: Comprehensive guides and examples
+- **🕐 Human-Readable Timestamps**: Option for user-friendly time formats
+- **🎨 Improved Color Logging**: Enhanced browser and Node.js color support
 
 ## 🚀 Quick Start
 
@@ -52,12 +54,14 @@ logger.withContext('API').error('Request failed', { status: 500 });
 ### Advanced Features
 
 ```javascript
-// Enable all advanced features including inline memory display
+// Enable all advanced features including timestamps and memory display
 const logger = new Logger({
   level: 'debug',
+  useTimestamp: true,
+  useHumanReadableTimestamp: true,  // NEW: Human-friendly timestamps
   enablePerformanceTracking: true,
   enableMemoryTracking: true,
-  logMemoryInline: true,        // NEW: Show memory in each log
+  logMemoryInline: true,            // Show memory in each log
   enableLogAnalytics: true,
   maxLogHistory: 1000
 });
@@ -67,9 +71,9 @@ logger.startPerformanceTimer('database-query');
 await fetchUserData();
 logger.endPerformanceTimer('database-query');
 
-// Logs with inline memory display
+// Logs with human-readable timestamps and inline memory display
 logger.info('Processing user data');
-// Output: [INFO] Processing user data (Memory: 23.15 MB)
+// Output: [Jun 16, 2025, 9:45:23 PM] [INFO] Processing user data (Memory: 23.15 MB)
 
 // Automatic stack traces
 logger.trace('Debug checkpoint reached');
@@ -88,6 +92,28 @@ const errorLogs = logger.searchLogs({
 const exportData = logger.exportLogs();
 ```
 
+### Timestamp Formatting
+
+WeeLog offers two timestamp formats to suit different debugging preferences:
+
+```javascript
+// ISO format (default): Technical precision
+const isoLogger = new Logger({
+  useTimestamp: true,
+  useHumanReadableTimestamp: false
+});
+isoLogger.info('User logged in');
+// Output: [2025-06-16T21:45:23.156Z] [INFO] User logged in
+
+// Human-readable format: Easy to read
+const humanLogger = new Logger({
+  useTimestamp: true,
+  useHumanReadableTimestamp: true
+});
+humanLogger.info('User logged in');
+// Output: [Jun 16, 2025, 9:45:23 PM] [INFO] User logged in
+```
+
 ## 📖 API Reference
 
 ### Constructor Options
@@ -97,6 +123,7 @@ const exportData = logger.exportLogs();
 | `level` | `'debug' \| 'info' \| 'warn' \| 'error'` | `'info'` | Minimum log level |
 | `enabled` | `boolean` | `true` | Enable/disable logging |
 | `useTimestamp` | `boolean` | `false` | Include timestamps |
+| `useHumanReadableTimestamp` | `boolean` | `false` | Use human-friendly timestamps |
 | `enablePerformanceTracking` | `boolean` | `false` | Track operation timers |
 | `enableMemoryTracking` | `boolean` | `false` | Monitor memory usage |
 | `logMemoryInline` | `boolean` | `false` | Show live memory in each log |
