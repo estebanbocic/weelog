@@ -77,7 +77,7 @@ export function DocumentationSidebar() {
                 <div className="flex items-center mb-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   <span className="text-sm font-semibold text-green-800">Production Ready</span>
-                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.0.5</Badge>
+                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.1.0</Badge>
                 </div>
                 <p className="text-sm text-green-700">
                   Professional logging library with advanced debugging capabilities for modern JavaScript applications.
