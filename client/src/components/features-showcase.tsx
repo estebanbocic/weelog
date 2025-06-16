@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Play, Zap, Brain, BarChart3, Search, FileStack, Download } from "lucide-react";
 
 type SectionKeys = 'whatItDoes' | 'howItWorks' | 'useCases';
 
 export function FeaturesShowcase() {
   const [activeFeature, setActiveFeature] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [expandedSections, setExpandedSections] = useState<Record<SectionKeys, boolean>>({
     whatItDoes: false,
     howItWorks: false,
     useCases: false
   });
+
+  // Auto-rotate features every 4 seconds
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setActiveFeature(prev => (prev + 1) % features.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
 
   const toggleSection = (section: SectionKeys) => {
     setExpandedSections(prev => ({
@@ -21,9 +33,16 @@ export function FeaturesShowcase() {
     }));
   };
 
+  const handleFeatureClick = (index: number) => {
+    setActiveFeature(index);
+    setIsAutoPlaying(false);
+  };
+
   const features = [
     {
-      title: "⚡ Performance Tracking",
+      title: "Performance Tracking",
+      icon: Zap,
+      gradient: "from-yellow-400 to-orange-500",
       description: "Measures and logs execution time for operations, functions, or code blocks with microsecond precision. Uses performance.now() for high-resolution timing without external dependencies.",
       whatItDoes: "Measures operation execution times with microsecond precision",
       howItWorks: "Uses performance.now() and Map-based label storage for high-resolution timing",
@@ -38,10 +57,13 @@ export function FeaturesShowcase() {
 await fetchUserData();
 logger.endPerformanceTimer('api-call', 'User data retrieved');
 // Output: [INFO] User data retrieved (45.2ms)`,
-      highlight: "Identify performance bottlenecks instantly"
+      highlight: "Identify performance bottlenecks instantly",
+      stats: "45.2ms avg response"
     },
     {
-      title: "🧠 Memory Monitoring", 
+      title: "Memory Monitoring", 
+      icon: Brain,
+      gradient: "from-purple-400 to-pink-500",
       description: "Tracks real-time heap memory usage in both Node.js and browser environments. Provides memory consumption analytics and optional inline display in log entries.",
       whatItDoes: "Tracks real-time heap usage in browsers and Node.js environments",
       howItWorks: "Uses performance.memory (browser) and process.memoryUsage() (Node.js) with formatted MB display",
@@ -58,10 +80,13 @@ logger.endPerformanceTimer('api-call', 'User data retrieved');
 
 logger.info('Processing large dataset');
 // Output: [INFO] Processing large dataset (Memory: 45.7 MB)`,
-      highlight: "Detect memory leaks before they impact users"
+      highlight: "Detect memory leaks before they impact users",
+      stats: "45.7 MB tracked"
     },
     {
-      title: "📊 Live Analytics",
+      title: "Live Analytics",
+      icon: BarChart3,
+      gradient: "from-blue-400 to-cyan-500",
       description: "Provides real-time insights into logging patterns, error rates, and application behavior. Automatically collects and analyzes log data to reveal trends and issues.",
       whatItDoes: "Real-time insights into logging patterns and error rates",
       howItWorks: "Maintains running counters and calculates statistics automatically with each log entry",
@@ -82,10 +107,13 @@ console.log(analytics);
 //     { context: "Database", count: 67 }
 //   ]
 // }`,
-      highlight: "Monitor application health with real-time metrics"
+      highlight: "Monitor application health with real-time metrics",
+      stats: "8.5% error rate"
     },
     {
-      title: "🔍 Smart Log Search",
+      title: "Smart Log Search",
+      icon: Search,
+      gradient: "from-green-400 to-emerald-500",
       description: "Enables powerful filtering and querying across complete log history using multiple criteria. Search by level, context, message content, and time ranges with instant results.",
       whatItDoes: "Powerful filtering across complete log history using multiple criteria",
       howItWorks: "In-memory array filtering with AND logic for instant search results",
@@ -109,10 +137,13 @@ const recentAPI = logger.searchLogs({
 
 // Find connection-related messages
 const connections = logger.searchLogs({ message: 'connection' });`,
-      highlight: "Find critical issues faster with intelligent search"
+      highlight: "Find critical issues faster with intelligent search",
+      stats: "1000+ logs searched"
     },
     {
-      title: "📋 Stack Trace Capture",
+      title: "Stack Trace Capture",
+      icon: FileStack,
+      gradient: "from-red-400 to-rose-500",
       description: "Automatically captures and stores complete call stack information when logging critical events. Provides exact code location and execution path for debugging.",
       whatItDoes: "Automatic call stack capture using JavaScript's Error object",
       howItWorks: "Preserves execution context and file locations in both browser and Node.js",
@@ -132,10 +163,13 @@ const connections = logger.searchLogs({ message: 'connection' });`,
 // - Exact function call sequence
 // - File locations and line numbers  
 // - Execution context and variables`,
-      highlight: "Debug complex issues with complete execution context"
+      highlight: "Debug complex issues with complete execution context",
+      stats: "Full stack captured"
     },
     {
-      title: "💾 Export & Session Tracking",
+      title: "Export & Session Tracking",
+      icon: Download,
+      gradient: "from-indigo-400 to-purple-500",
       description: "Maintains complete debugging sessions with unique identifiers and provides JSON export of all log data, analytics, and metadata for sharing and analysis.",
       whatItDoes: "Complete session management with unique IDs and JSON export capability",
       howItWorks: "Maintains full log history with analytics and metadata, exports comprehensive JSON",
@@ -158,150 +192,121 @@ console.log(\`Total logs: \${parsed.logs.length}\`);
 
 // Save for sharing or analysis
 fs.writeFileSync(\`debug-session-\${parsed.sessionId}.json\`, sessionData);`,
-      highlight: "Share complete debugging sessions across teams"
+      highlight: "Share complete debugging sessions across teams",
+      stats: "JSON export ready"
     }
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Unique Features That Set WeeLog Apart
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <Play className="w-4 h-4" />
+            {isAutoPlaying ? 'Auto-playing features' : 'Manual exploration'}
+          </div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Next-Generation Logging Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Go beyond basic logging with advanced features designed for modern JavaScript applications
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            Experience advanced debugging capabilities that transform how you monitor, analyze, and optimize your JavaScript applications
           </p>
+          <Button
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            variant="outline"
+            className="gap-2"
+          >
+            {isAutoPlaying ? 'Stop Auto-play' : 'Start Auto-play'}
+            <Play className="w-4 h-4" />
+          </Button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Feature Navigation */}
-          <div className="space-y-3">
-            {features.map((feature, index) => (
+        {/* Hero Feature Display */}
+        <div className="mb-16">
+          <Card className="overflow-hidden border-0 shadow-2xl">
+            <div className={`bg-gradient-to-r ${features[activeFeature].gradient} p-1`}>
+              <div className="bg-white rounded-lg p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`p-4 rounded-xl bg-gradient-to-r ${features[activeFeature].gradient} text-white shadow-lg`}>
+                    {(() => {
+                      const IconComponent = features[activeFeature].icon;
+                      return <IconComponent className="w-8 h-8" />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">{features[activeFeature].title}</h3>
+                    <p className="text-sm text-gray-500 font-medium">{features[activeFeature].stats}</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 mb-6 leading-relaxed">{features[activeFeature].description}</p>
+                
+                <div className="bg-gray-900 rounded-lg p-6 mb-6">
+                  <pre className="text-green-400 font-mono text-sm overflow-x-auto">
+                    <code>{features[activeFeature].code}</code>
+                  </pre>
+                </div>
+                
+                <div className={`bg-gradient-to-r ${features[activeFeature].gradient} bg-opacity-10 border-l-4 border-opacity-50 p-4 rounded-r-lg`}>
+                  <p className="font-semibold text-gray-800">
+                    {features[activeFeature].highlight}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Feature Grid Navigation */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
               <Card
                 key={index}
-                className={`p-4 cursor-pointer transition-all duration-200 ${
+                className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
                   activeFeature === index
-                    ? 'border-blue-500 shadow-lg bg-blue-50'
-                    : 'hover:border-gray-300 hover:shadow-md'
+                    ? 'ring-2 ring-blue-500 shadow-xl'
+                    : 'hover:shadow-lg'
                 }`}
-                onClick={() => setActiveFeature(index)}
+                onClick={() => handleFeatureClick(index)}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {feature.description}
-                    </p>
-                    <Badge variant="secondary" className="text-xs">
-                      {feature.highlight}
-                    </Badge>
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`p-3 rounded-lg bg-gradient-to-r ${feature.gradient} text-white shadow-md`}>
+                      <IconComponent className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{feature.title}</h4>
+                      <p className="text-xs text-gray-500">{feature.stats}</p>
+                    </div>
                   </div>
-                  <div className={`ml-4 w-3 h-3 rounded-full ${
-                    activeFeature === index ? 'bg-blue-500' : 'bg-gray-300'
-                  }`} />
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+                    {feature.description}
+                  </p>
+                  <Badge 
+                    variant="secondary" 
+                    className={`text-xs bg-gradient-to-r ${feature.gradient} text-white border-0`}
+                  >
+                    {feature.highlight}
+                  </Badge>
                 </div>
+                {activeFeature === index && (
+                  <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
+                )}
               </Card>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
-          {/* Detailed Feature Information */}
-          <div className="lg:sticky lg:top-24 space-y-4">
-            {/* Code Preview Card */}
-            <Card className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-gray-900">
-                  {features[activeFeature].title}
-                </h3>
-                <Badge className="bg-blue-100 text-blue-800">
-                  Demo Code
-                </Badge>
-              </div>
-              
-              <div className="bg-gray-900 rounded-lg p-4 mb-4">
-                <pre className="text-green-400 font-mono text-sm overflow-x-auto">
-                  <code>{features[activeFeature].code}</code>
-                </pre>
-              </div>
-
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-                <p className="text-sm text-blue-800">
-                  <strong>Key Benefit:</strong> {features[activeFeature].highlight}
-                </p>
-              </div>
-            </Card>
-
-            {/* Detailed Information Card */}
-            <Card className="p-6">
-              <h4 className="font-semibold text-gray-900 mb-4">Feature Details</h4>
-              
-              {/* What It Does */}
-              <div className="mb-4">
-                <button
-                  onClick={() => toggleSection('whatItDoes')}
-                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <span className="font-medium text-gray-900">What It Does</span>
-                  {expandedSections.whatItDoes ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                </button>
-                {expandedSections.whatItDoes && (
-                  <div className="mt-3 p-3 bg-white border rounded-lg">
-                    <p className="text-sm text-gray-700">{features[activeFeature].whatItDoes}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* How It Works */}
-              <div className="mb-4">
-                <button
-                  onClick={() => toggleSection('howItWorks')}
-                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <span className="font-medium text-gray-900">How It Works</span>
-                  {expandedSections.howItWorks ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                </button>
-                {expandedSections.howItWorks && (
-                  <div className="mt-3 p-3 bg-white border rounded-lg">
-                    <p className="text-sm text-gray-700">{features[activeFeature].howItWorks}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Use Cases */}
-              <div className="mb-4">
-                <button
-                  onClick={() => toggleSection('useCases')}
-                  className="flex items-center justify-between w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <span className="font-medium text-gray-900">When to Use</span>
-                  {expandedSections.useCases ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                </button>
-                {expandedSections.useCases && (
-                  <div className="mt-3 p-3 bg-white border rounded-lg">
-                    <ul className="text-sm text-gray-700 space-y-2">
-                      {features[activeFeature].useCases.map((useCase, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="text-blue-500 mr-2">•</span>
-                          <span>{useCase}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              <div className="text-center">
-                <Button 
-                  onClick={() => window.open('https://www.npmjs.com/package/weelog', '_blank')}
-                  className="bg-blue-600 text-white hover:bg-blue-700"
-                >
-                  Try WeeLog Now
-                </Button>
-              </div>
-            </Card>
-          </div>
+        {/* Call to Action */}
+        <div className="text-center">
+          <Button 
+            onClick={() => window.open('https://www.npmjs.com/package/weelog', '_blank')}
+            size="lg"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-8 py-3"
+          >
+            Get Started with WeeLog
+          </Button>
         </div>
 
         {/* Quick Stats */}
