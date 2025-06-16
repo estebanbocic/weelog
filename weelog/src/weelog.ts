@@ -7,6 +7,7 @@ export interface LoggerOptions {
   level?: LogLevel;
   enabled?: boolean;
   useTimestamp?: boolean;
+  useHumanReadableTimestamp?: boolean;
   enablePerformanceTracking?: boolean;
   enableMemoryTracking?: boolean;
   logMemoryInline?: boolean;
@@ -55,6 +56,7 @@ export class Logger {
   private level: LogLevel;
   private enabled: boolean;
   private useTimestamp: boolean;
+  private useHumanReadableTimestamp: boolean;
   private context?: string;
   private interceptors: LogInterceptor[];
   private enablePerformanceTracking: boolean;
@@ -85,6 +87,7 @@ export class Logger {
     this.level = options.level || 'info';
     this.enabled = options.enabled !== false;
     this.useTimestamp = options.useTimestamp || false;
+    this.useHumanReadableTimestamp = options.useHumanReadableTimestamp || false;
     this.enablePerformanceTracking = options.enablePerformanceTracking || false;
     this.enableMemoryTracking = options.enableMemoryTracking || false;
     this.logMemoryInline = options.logMemoryInline || false;
@@ -296,7 +299,21 @@ export class Logger {
     let formatted = '';
     
     if (this.useTimestamp) {
-      formatted += `[${new Date().toISOString()}] `;
+      const timestamp = new Date();
+      if (this.useHumanReadableTimestamp) {
+        // Human readable format: "Dec 16, 2024 at 9:45:23 PM"
+        formatted += `[${timestamp.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric', 
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        })}] `;
+      } else {
+        formatted += `[${timestamp.toISOString()}] `;
+      }
     }
     
     formatted += `[${level.toUpperCase()}]`;
@@ -424,32 +441,52 @@ export class Logger {
 
     const color = this.colors[level];
     
-    // Browser environment - use colored output
-    if (typeof window !== 'undefined' && console.log) {
+    // Detect browser environment more reliably
+    const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+    const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+    
+    // Browser environment - use colored output with CSS styling
+    if (isBrowser && console.log) {
       const weight = level === 'error' ? 'bold' : 'normal';
-      console.log(`%c${formatted}`, `color: ${color}; font-weight: ${weight}`);
+      const styles = `color: ${color}; font-weight: ${weight}; font-family: monospace;`;
+      
+      try {
+        console.log(`%c${formatted}`, styles);
+      } catch (e) {
+        // Fallback if styling fails
+        console.log(formatted);
+      }
     } 
-    // Node.js environment - use appropriate console method
-    else if (typeof process !== 'undefined') {
+    // Node.js environment - use appropriate console method with ANSI colors
+    else if (isNode) {
+      const ansiColors: Record<LogLevel, string> = {
+        debug: '\x1b[90m',   // gray
+        info: '\x1b[36m',    // cyan
+        warn: '\x1b[33m',    // yellow
+        error: '\x1b[31m'    // red
+      };
+      const reset = '\x1b[0m';
+      const coloredMessage = `${ansiColors[level]}${formatted}${reset}`;
+      
       switch (level) {
         case 'debug':
-          console.debug ? console.debug(formatted) : console.log(formatted);
+          console.debug ? console.debug(coloredMessage) : console.log(coloredMessage);
           break;
         case 'info':
-          console.info(formatted);
+          console.info(coloredMessage);
           break;
         case 'warn':
-          console.warn(formatted);
+          console.warn(coloredMessage);
           break;
         case 'error':
-          console.error(formatted);
+          console.error(coloredMessage);
           break;
         default:
-          console.log(formatted);
+          console.log(coloredMessage);
       }
     }
-    // Fallback
-    else if (console.log) {
+    // Fallback for other environments
+    else {
       console.log(formatted);
     }
   }
