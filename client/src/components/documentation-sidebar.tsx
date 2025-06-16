@@ -30,16 +30,16 @@ export function DocumentationSidebar() {
             className={getTabClasses('demo')}
           >
             <Play className="w-4 h-4" />
-            <span className="hidden sm:inline">Interactive Demo</span>
-            <span className="sm:hidden">Demo</span>
+            <span className="hidden sm:inline">Features Overview</span>
+            <span className="sm:hidden">Features</span>
           </button>
           <button
             onClick={() => switchTab('getting-started')}
             className={getTabClasses('getting-started')}
           >
             <BookOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">Getting Started</span>
-            <span className="sm:hidden">Start</span>
+            <span className="hidden sm:inline">Complete Guide</span>
+            <span className="sm:hidden">Guide</span>
           </button>
           <button
             onClick={() => switchTab('api')}
@@ -68,10 +68,10 @@ export function DocumentationSidebar() {
             </div>
           )}
           
-          {/* Getting Started Tab */}
+          {/* Complete Guide Tab */}
           {activeTab === 'getting-started' && (
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
+            <div className="p-6 max-h-[600px] overflow-y-auto">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete Guide</h3>
               
               <Card className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 p-4 mb-6">
                 <div className="flex items-center mb-2">
@@ -80,87 +80,231 @@ export function DocumentationSidebar() {
                   <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.0.5</Badge>
                 </div>
                 <p className="text-sm text-green-700">
-                  Advanced logging library with performance tracking, memory monitoring, and analytics.
+                  Professional logging library with advanced debugging capabilities for modern JavaScript applications.
                 </p>
               </Card>
               
-              <div className="space-y-6">
+              <div className="space-y-8">
+                {/* Installation */}
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Quick Installation</h4>
-                  <div className="bg-gray-900 rounded-lg p-4">
-                    <code className="font-mono text-sm text-green-400">npm install weelog</code>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-blue-600">1</span>
+                    </div>
+                    Installation & Basic Setup
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Install WeeLog via npm and start logging immediately with zero configuration required.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <code className="font-mono text-sm text-green-400">npm install weelog</code>
+                    </div>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`import { log, info, warn, error } from 'weelog';
+
+// Simple logging
+log('Application started');
+info('User logged in', { userId: 123 });
+warn('API rate limit approaching');
+error('Database connection failed');`}</code>
+                      </pre>
+                    </div>
                   </div>
                 </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Advanced Setup</h4>
-                  <div className="bg-gray-900 rounded-lg p-4">
-                    <pre className="font-mono text-sm text-green-400">
-                      <code>{`import Logger from 'weelog';
 
-// Create advanced logger with all features
+                {/* Performance Tracking */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-purple-600">2</span>
+                    </div>
+                    Performance Tracking
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Measure execution times, identify bottlenecks, and optimize your application performance with precision timing.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`import Logger from 'weelog';
+
 const logger = new Logger({
-  level: 'info',
-  useTimestamp: true,
-  enablePerformanceTracking: true,
-  enableMemoryTracking: true,
-  enableLogAnalytics: true,
-  maxLogHistory: 1000
+  enablePerformanceTracking: true
 });
 
-// Performance tracking
-logger.startPerformanceTimer('api-call');
-await fetchData();
-logger.endPerformanceTimer('api-call', 'Data fetched');
+// Automatic timing
+logger.startPerformanceTimer('database-query');
+const users = await db.users.findMany();
+logger.endPerformanceTimer('database-query', 'Users fetched');
+// Output: [INFO] Users fetched (47.3ms)
 
-// Memory monitoring
-logger.info('Processing data'); 
-// Shows: [INFO] Processing data (Memory: 45.7 MB)
-
-// Get analytics
-const stats = logger.getAnalytics();
-console.log('Error rate:', stats.errorRate + '%');`}</code>
-                    </pre>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Advanced Features</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Card className="p-3 border-0 bg-blue-50">
-                      <div className="text-xs font-medium text-blue-800 mb-1">Performance</div>
-                      <div className="text-xs text-blue-600">Track execution times</div>
-                    </Card>
-                    <Card className="p-3 border-0 bg-purple-50">
-                      <div className="text-xs font-medium text-purple-800 mb-1">Memory</div>
-                      <div className="text-xs text-purple-600">Monitor heap usage</div>
-                    </Card>
-                    <Card className="p-3 border-0 bg-green-50">
-                      <div className="text-xs font-medium text-green-800 mb-1">Search</div>
-                      <div className="text-xs text-green-600">Filter log history</div>
-                    </Card>
-                    <Card className="p-3 border-0 bg-orange-50">
-                      <div className="text-xs font-medium text-orange-800 mb-1">Export</div>
-                      <div className="text-xs text-orange-600">JSON session data</div>
+// Manual performance data
+logger.info('API response', {
+  performance: { duration: 234, endpoint: '/api/users' }
+});`}</code>
+                      </pre>
+                    </div>
+                    <Card className="border-0 bg-purple-50 p-3">
+                      <p className="text-xs text-purple-700">
+                        <strong>Pro Tip:</strong> Use performance tracking to identify slow functions, 
+                        API calls, and database queries that impact user experience.
+                      </p>
                     </Card>
                   </div>
                 </div>
 
+                {/* Memory Monitoring */}
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Quick Examples</h4>
-                  <div className="space-y-3">
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs font-medium text-gray-700 mb-2">Context Logging</div>
-                      <code className="text-xs text-gray-600">logger.withContext('API').info('Request started')</code>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-red-600">3</span>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs font-medium text-gray-700 mb-2">Stack Traces</div>
-                      <code className="text-xs text-gray-600">logger.trace('Checkpoint', {`{userId: 123}`})</code>
+                    Memory Monitoring
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Track memory usage patterns, detect memory leaks, and optimize resource consumption in real-time.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`const logger = new Logger({
+  enableMemoryTracking: true,
+  logMemoryInline: true  // Show memory in every log
+});
+
+// Every log shows current memory usage
+logger.info('Processing large dataset');
+// Output: [INFO] Processing large dataset (Memory: 156.7 MB - 67%)
+
+// Get detailed memory info
+const memory = logger.getMemoryInfo();
+logger.warn('High memory usage detected', {
+  used: memory.used,
+  percentage: memory.percentage
+});`}</code>
+                      </pre>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs font-medium text-gray-700 mb-2">Log Search</div>
-                      <code className="text-xs text-gray-600">logger.searchLogs({`{level: 'error'}`})</code>
+                    <Card className="border-0 bg-red-50 p-3">
+                      <p className="text-xs text-red-700">
+                        <strong>Memory Leak Detection:</strong> Watch for steadily increasing memory 
+                        percentages over time to identify potential leaks.
+                      </p>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Stack Traces & Debugging */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-orange-600">4</span>
                     </div>
+                    Stack Traces & Deep Debugging
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Capture complete call stacks, trace execution paths, and pinpoint exact locations of issues in your code.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`// Automatic stack trace capture
+logger.trace('Checkpoint reached', { 
+  userId: 123, 
+  action: 'profile-update' 
+});
+
+// Context-aware logging
+const apiLogger = logger.withContext('PaymentAPI');
+apiLogger.error('Transaction failed', {
+  transactionId: 'tx_123',
+  amount: 99.99,
+  reason: 'insufficient_funds'
+});
+// Output: [ERROR] [PaymentAPI] Transaction failed
+//         at processPayment (payment.js:45:12)
+//         at handleRequest (server.js:123:8)`}</code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Analytics & Insights */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-indigo-600">5</span>
+                    </div>
+                    Analytics & Insights
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Get comprehensive statistics about your application's behavior, error patterns, and logging trends.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`const logger = new Logger({
+  enableLogAnalytics: true,
+  maxLogHistory: 5000
+});
+
+// Generate detailed analytics
+const analytics = logger.getAnalytics();
+console.log(\`Total logs: \${analytics.totalLogs}\`);
+console.log(\`Error rate: \${analytics.errorRate}%\`);
+console.log(\`Top contexts:\`, analytics.topContexts);
+
+// Search and filter logs
+const errorLogs = logger.searchLogs({
+  level: 'error',
+  context: 'API',
+  timeRange: {
+    start: new Date('2024-01-01'),
+    end: new Date()
+  }
+});`}</code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Export & Session Management */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-xs font-bold text-green-600">6</span>
+                    </div>
+                    Export & Session Management
+                  </h4>
+                  <div className="ml-8 space-y-3">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Export complete logging sessions for analysis, share debug information with team members, and maintain session continuity.
+                    </p>
+                    <div className="bg-gray-900 rounded-lg p-4">
+                      <pre className="font-mono text-sm text-green-400">
+                        <code>{`// Export all session data
+const sessionData = logger.exportLogs();
+console.log('Session exported:', sessionData);
+
+// Get complete log history
+const history = logger.getLogHistory();
+history.forEach(entry => {
+  console.log(\`[\${entry.level}] \${entry.message}\`);
+  console.log(\`Session: \${entry.sessionId}\`);
+  console.log(\`Stack: \${entry.stackTrace}\`);
+});
+
+// Clear history when needed
+logger.clearHistory();`}</code>
+                      </pre>
+                    </div>
+                    <Card className="border-0 bg-green-50 p-3">
+                      <p className="text-xs text-green-700">
+                        <strong>Team Collaboration:</strong> Export logs as JSON to share debugging 
+                        sessions with teammates or attach to bug reports.
+                      </p>
+                    </Card>
                   </div>
                 </div>
               </div>
