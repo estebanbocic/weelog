@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Play, BookOpen, Code, Layers } from "lucide-react";
+import { FeaturesShowcase } from "./features-showcase";
 
-type TabType = 'getting-started' | 'api' | 'frameworks';
+type TabType = 'demo' | 'getting-started' | 'api' | 'frameworks';
 
 export function DocumentationSidebar() {
-  const [activeTab, setActiveTab] = useState<TabType>('getting-started');
+  const [activeTab, setActiveTab] = useState<TabType>('demo');
 
   const switchTab = (tab: TabType) => {
     setActiveTab(tab);
@@ -12,19 +16,28 @@ export function DocumentationSidebar() {
 
   const getTabClasses = (tab: TabType) => {
     return activeTab === tab
-      ? "flex-1 px-4 py-3 text-sm font-medium text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-      : "flex-1 px-4 py-3 text-sm font-medium text-gray-700 hover:text-gray-900";
+      ? "flex-1 px-3 py-3 text-sm font-medium text-blue-600 border-b-2 border-blue-600 bg-blue-50 flex items-center justify-center gap-2"
+      : "flex-1 px-3 py-3 text-sm font-medium text-gray-700 hover:text-gray-900 flex items-center justify-center gap-2";
   };
 
   return (
-    <div id="documentation" className="lg:col-span-4">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-20 sm:top-24">
+    <div id="documentation" className="w-full">
+      <div className="bg-white rounded-xl shadow-sm border-0 overflow-hidden">
         {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200">
+        <div className="flex border-b border-gray-200 bg-gray-50">
+          <button
+            onClick={() => switchTab('demo')}
+            className={getTabClasses('demo')}
+          >
+            <Play className="w-4 h-4" />
+            <span className="hidden sm:inline">Interactive Demo</span>
+            <span className="sm:hidden">Demo</span>
+          </button>
           <button
             onClick={() => switchTab('getting-started')}
             className={getTabClasses('getting-started')}
           >
+            <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">Getting Started</span>
             <span className="sm:hidden">Start</span>
           </button>
@@ -32,6 +45,7 @@ export function DocumentationSidebar() {
             onClick={() => switchTab('api')}
             className={getTabClasses('api')}
           >
+            <Code className="w-4 h-4" />
             <span className="hidden sm:inline">API Reference</span>
             <span className="sm:hidden">API</span>
           </button>
@@ -39,107 +53,115 @@ export function DocumentationSidebar() {
             onClick={() => switchTab('frameworks')}
             className={getTabClasses('frameworks')}
           >
-            Frameworks
+            <Layers className="w-4 h-4" />
+            <span className="hidden sm:inline">Frameworks</span>
+            <span className="sm:hidden">Framework</span>
           </button>
         </div>
         
         {/* Tab Content */}
-        <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden">
+        <div className="min-h-[500px] overflow-y-auto overflow-x-hidden">
+          {/* Interactive Demo Tab */}
+          {activeTab === 'demo' && (
+            <div className="p-0">
+              <FeaturesShowcase />
+            </div>
+          )}
+          
           {/* Getting Started Tab */}
           {activeTab === 'getting-started' && (
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Getting Started</h3>
               
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                  <span className="text-sm font-medium text-green-800">Now available on NPM!</span>
+              <Card className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 p-4 mb-6">
+                <div className="flex items-center mb-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                  <span className="text-sm font-semibold text-green-800">Production Ready</span>
+                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.0.5</Badge>
                 </div>
-                <p className="text-xs text-green-600 mt-1">
-                  WeeLog is officially published and ready for production use.
+                <p className="text-sm text-green-700">
+                  Advanced logging library with performance tracking, memory monitoring, and analytics.
                 </p>
-              </div>
-              
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-blue-800">Support Development</span>
-                  <span className="text-xs text-blue-600">❤️</span>
-                </div>
-                <p className="text-xs text-blue-600 mb-3">
-                  Help keep WeeLog free and open source by supporting the developer.
-                </p>
-                <button
-                  onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
-                  className="w-full bg-blue-600 text-white px-3 py-2 rounded text-xs font-medium hover:bg-blue-700 transition-colors"
-                >
-                  Donate via PayPal
-                </button>
-              </div>
+              </Card>
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Installation</h4>
-                  <div className="bg-gray-100 rounded-lg p-3">
-                    <code className="font-mono text-sm text-gray-800">npm install weelog</code>
+                  <h4 className="font-medium text-gray-900 mb-3">Quick Installation</h4>
+                  <div className="bg-gray-900 rounded-lg p-4">
+                    <code className="font-mono text-sm text-green-400">npm install weelog</code>
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Basic Usage</h4>
-                  <div className="bg-gray-100 rounded-lg p-3">
-                    <pre className="font-mono text-sm text-gray-800">
+                  <h4 className="font-medium text-gray-900 mb-3">Advanced Setup</h4>
+                  <div className="bg-gray-900 rounded-lg p-4">
+                    <pre className="font-mono text-sm text-green-400">
                       <code>{`import Logger from 'weelog';
 
-const logger = new Logger();
-
-logger.info('Hello WeeLog!');
-logger.warn('This is a warning');
-logger.error('Something went wrong');`}</code>
-                    </pre>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Configuration</h4>
-                  <div className="bg-gray-100 rounded-lg p-3">
-                    <pre className="font-mono text-sm text-gray-800">
-                      <code>{`const logger = new Logger({
+// Create advanced logger with all features
+const logger = new Logger({
   level: 'info',
-  enabled: true,
-  useTimestamp: true
-});`}</code>
+  useTimestamp: true,
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  enableLogAnalytics: true,
+  maxLogHistory: 1000
+});
+
+// Performance tracking
+logger.startPerformanceTimer('api-call');
+await fetchData();
+logger.endPerformanceTimer('api-call', 'Data fetched');
+
+// Memory monitoring
+logger.info('Processing data'); 
+// Shows: [INFO] Processing data (Memory: 45.7 MB)
+
+// Get analytics
+const stats = logger.getAnalytics();
+console.log('Error rate:', stats.errorRate + '%');`}</code>
                     </pre>
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Core Features</h4>
-                  <ul className="space-y-2 text-sm text-gray-600">
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Lightweight and fast
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Browser & Node.js compatible
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Configurable log levels
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Context support
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Interceptor callbacks
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                      Colorized console output
-                    </li>
-                  </ul>
+                  <h4 className="font-medium text-gray-900 mb-3">Advanced Features</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Card className="p-3 border-0 bg-blue-50">
+                      <div className="text-xs font-medium text-blue-800 mb-1">Performance</div>
+                      <div className="text-xs text-blue-600">Track execution times</div>
+                    </Card>
+                    <Card className="p-3 border-0 bg-purple-50">
+                      <div className="text-xs font-medium text-purple-800 mb-1">Memory</div>
+                      <div className="text-xs text-purple-600">Monitor heap usage</div>
+                    </Card>
+                    <Card className="p-3 border-0 bg-green-50">
+                      <div className="text-xs font-medium text-green-800 mb-1">Search</div>
+                      <div className="text-xs text-green-600">Filter log history</div>
+                    </Card>
+                    <Card className="p-3 border-0 bg-orange-50">
+                      <div className="text-xs font-medium text-orange-800 mb-1">Export</div>
+                      <div className="text-xs text-orange-600">JSON session data</div>
+                    </Card>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Quick Examples</h4>
+                  <div className="space-y-3">
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs font-medium text-gray-700 mb-2">Context Logging</div>
+                      <code className="text-xs text-gray-600">logger.withContext('API').info('Request started')</code>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs font-medium text-gray-700 mb-2">Stack Traces</div>
+                      <code className="text-xs text-gray-600">logger.trace('Checkpoint', {`{userId: 123}`})</code>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs font-medium text-gray-700 mb-2">Log Search</div>
+                      <code className="text-xs text-gray-600">logger.searchLogs({`{level: 'error'}`})</code>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -151,135 +173,69 @@ logger.error('Something went wrong');`}</code>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">API Reference</h3>
               
               <div className="space-y-6">
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Constructor</h4>
-                  <div className="bg-gray-100 rounded-lg p-3">
-                    <code className="font-mono text-sm text-gray-800">new Logger(options?)</code>
+                <Card className="border-0 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+                  <h4 className="font-semibold text-blue-900 mb-2">Logger Constructor</h4>
+                  <div className="bg-gray-900 rounded-lg p-3 mb-3">
+                    <code className="font-mono text-sm text-green-400">new Logger(options?: LoggerOptions)</code>
                   </div>
-                  <div className="mt-3 text-sm text-gray-600">
-                    <p className="mb-2"><strong>Parameters:</strong></p>
-                    <ul className="space-y-1 ml-4">
-                      <li>• <code>level</code>: 'debug' | 'info' | 'warn' | 'error' (default: 'info')</li>
-                      <li>• <code>enabled</code>: boolean (default: true)</li>
-                      <li>• <code>useTimestamp</code>: boolean (default: false)</li>
-                      <li>• <code>enablePerformanceTracking</code>: boolean (default: false)</li>
-                      <li>• <code>enableMemoryTracking</code>: boolean (default: false)</li>
-                      <li>• <code>enableLogAnalytics</code>: boolean (default: false)</li>
-                    </ul>
+                  <div className="text-sm text-blue-800">
+                    <div className="font-medium mb-2">Advanced Options:</div>
+                    <div className="grid grid-cols-1 gap-2 text-xs">
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">enablePerformanceTracking: boolean</code>
+                        <div className="text-blue-600 mt-1">Track execution times automatically</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">enableMemoryTracking: boolean</code>
+                        <div className="text-blue-600 mt-1">Monitor heap memory usage</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">enableLogAnalytics: boolean</code>
+                        <div className="text-blue-600 mt-1">Collect logging statistics</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">maxLogHistory: number</code>
+                        <div className="text-blue-600 mt-1">Maximum logs to keep in memory</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-gray-100 rounded-lg p-3 mt-3 overflow-x-auto">
-                    <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                      <code>{`const logger = new Logger({
-  level: 'debug',
-  enablePerformanceTracking: true,
-  enableMemoryTracking: true,
-  enableLogAnalytics: true,
-  enabled: true,
-  useTimestamp: true
-});`}</code>
-                    </pre>
-                  </div>
-                </div>
+                </Card>
                 
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Logging Methods</h4>
+                <Card className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                  <h4 className="font-semibold text-green-900 mb-3">Advanced Methods</h4>
                   <div className="space-y-3">
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.debug(message: string, data?: any)</code>
+                    <div className="bg-white/50 rounded p-3">
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="font-mono text-xs text-green-400">logger.trace(message, data)</code>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Logs debug information. Only shown when level is 'debug'.</p>
+                      <p className="text-xs text-green-700">Captures complete stack trace for debugging</p>
                     </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.info(message: string, data?: any)</code>
+                    <div className="bg-white/50 rounded p-3">
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="font-mono text-xs text-green-400">logger.startPerformanceTimer(label)</code>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Logs general information. Shown when level is 'debug' or 'info'.</p>
+                      <p className="text-xs text-green-700">Begin tracking execution time for operations</p>
                     </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.warn(message: string, data?: any)</code>
+                    <div className="bg-white/50 rounded p-3">
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="font-mono text-xs text-green-400">logger.getAnalytics()</code>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Logs warnings. Shown when level is 'debug', 'info', or 'warn'.</p>
+                      <p className="text-xs text-green-700">Get real-time logging statistics and error rates</p>
                     </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.error(message: string, data?: any)</code>
+                    <div className="bg-white/50 rounded p-3">
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="font-mono text-xs text-green-400">logger.searchLogs(criteria)</code>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Logs errors. Always shown regardless of level.</p>
+                      <p className="text-xs text-green-700">Filter log history by level, context, or time range</p>
                     </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Control Methods</h4>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.setLevel(level: LogLevel)</code>
+                    <div className="bg-white/50 rounded p-3">
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="font-mono text-xs text-green-400">logger.exportLogs()</code>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">Changes the minimum log level. Returns the logger instance for chaining.</p>
-                    </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.enable(enabled: boolean)</code>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">Enables or disables all logging. Returns the logger instance for chaining.</p>
-                    </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.withContext(context: string)</code>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">Creates a new logger instance with the specified context prefix.</p>
-                    </div>
-                    <div>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <code className="font-mono text-xs text-gray-800 break-words">logger.onLog(callback: LogInterceptor)</code>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">Adds an interceptor function called for every log entry. Returns the logger instance.</p>
+                      <p className="text-xs text-green-700">Export complete session as JSON for sharing</p>
                     </div>
                   </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Advanced Usage Examples</h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">Context Logging</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`const apiLogger = logger.withContext('API');
-apiLogger.info('Request started', { url: '/users' });
-// Output: [INFO] [API] Request started {"url":"/users"}`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">Log Interception</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`logger.onLog((level, message, context, data) => {
-  // Send to analytics, save to file, etc.
-  analytics.track('log_event', {
-    level, message, context, data
-  });
-});`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">Method Chaining</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`const prodLogger = new Logger()
-  .setLevel('warn')
-  .enable(process.env.NODE_ENV !== 'test')
-  .withContext('Production');`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </Card>
               </div>
             </div>
           )}
@@ -289,382 +245,181 @@ apiLogger.info('Request started', { url: '/users' });
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Framework Integration</h3>
               
-              <div className="space-y-8">
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <span className="w-5 h-5 bg-blue-500 rounded mr-2 flex items-center justify-center text-white text-xs font-bold">R</span>
-                    React Integration
+              <div className="space-y-6">
+                <Card className="border-0 bg-gradient-to-r from-blue-50 to-cyan-50 p-4">
+                  <h4 className="font-semibold text-blue-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-blue-500 rounded mr-3 flex items-center justify-center text-white text-xs font-bold">R</div>
+                    React with Advanced Features
                   </h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Custom Hook for React Components</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// hooks/useLogger.js
-import { useMemo } from 'react';
+                  <div className="bg-gray-900 rounded-lg p-4">
+                    <pre className="font-mono text-xs text-green-400">
+                      <code>{`// hooks/useAdvancedLogger.js
+import { useMemo, useCallback } from 'react';
 import Logger from 'weelog';
 
-export function useLogger(context, options = {}) {
-  return useMemo(() => {
-    const logger = new Logger({
-      level: process.env.NODE_ENV === 'development' 
-        ? 'debug' : 'warn',
+export function useAdvancedLogger(context, options = {}) {
+  const logger = useMemo(() => {
+    return new Logger({
+      level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
       useTimestamp: true,
+      enablePerformanceTracking: true,
+      enableMemoryTracking: true,
+      enableLogAnalytics: true,
+      maxLogHistory: 500,
       ...options
-    });
-    return context 
-      ? logger.withContext(context) 
-      : logger;
-  }, [context, options]);
+    }).withContext(context);
+  }, [context]);
+
+  const trackApiCall = useCallback(async (apiName, apiCall) => {
+    logger.startPerformanceTimer(apiName);
+    try {
+      const result = await apiCall();
+      logger.endPerformanceTimer(apiName, \`\${apiName} completed\`);
+      logger.info(\`API success: \${apiName}\`, { result });
+      return result;
+    } catch (error) {
+      logger.error(\`API failed: \${apiName}\`, { error });
+      throw error;
+    }
+  }, [logger]);
+
+  return { logger, trackApiCall };
 }
 
-// Usage in component
-function UserProfile({ userId }) {
-  const logger = useLogger('UserProfile');
+// Component usage
+function UserDashboard({ userId }) {
+  const { logger, trackApiCall } = useAdvancedLogger('Dashboard');
   
   useEffect(() => {
-    logger.info('Loading user profile', { userId });
-    fetchUser(userId)
-      .then(user => logger.debug('User loaded', user))
-      .catch(err => logger.error('Failed to load user', err));
-  }, [userId, logger]);
+    trackApiCall('fetchUserData', () => 
+      fetch(\`/api/users/\${userId}\`).then(r => r.json())
+    );
+  }, [userId, trackApiCall]);
+
+  const analytics = logger.getAnalytics();
+  console.log('Error rate:', analytics.errorRate);
 }`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Global Logger Provider</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// context/LoggerContext.js
-import { createContext, useContext } from 'react';
+                    </pre>
+                  </div>
+                </Card>
+
+                <Card className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                  <h4 className="font-semibold text-green-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-green-500 rounded mr-3 flex items-center justify-center text-white text-xs font-bold">N</div>
+                    Node.js Server Monitoring
+                  </h4>
+                  <div className="bg-gray-900 rounded-lg p-4">
+                    <pre className="font-mono text-xs text-green-400">
+                      <code>{`// server/logger.js
 import Logger from 'weelog';
 
-const LoggerContext = createContext();
+const serverLogger = new Logger({
+  level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
+  useTimestamp: true,
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  enableLogAnalytics: true,
+  logMemoryInline: true
+});
 
-export function LoggerProvider({ children }) {
-  const logger = new Logger({
-    level: 'info',
-    useTimestamp: true
-  });
+// Middleware for request logging
+export const requestLogger = (req, res, next) => {
+  const requestId = Math.random().toString(36).substr(2, 9);
+  const logger = serverLogger.withContext(\`Request-\${requestId}\`);
   
-  return (
-    <LoggerContext.Provider value={logger}>
-      {children}
-    </LoggerContext.Provider>
-  );
-}
+  logger.startPerformanceTimer('request');
+  logger.info(\`\${req.method} \${req.path}\`, { 
+    ip: req.ip, 
+    userAgent: req.get('User-Agent') 
+  });
 
-export const useGlobalLogger = () => 
-  useContext(LoggerContext);`}</code>
-                        </pre>
-                      </div>
-                    </div>
+  res.on('finish', () => {
+    logger.endPerformanceTimer('request', 
+      \`Request completed with status \${res.statusCode}\`);
+    
+    if (res.statusCode >= 400) {
+      logger.error('Request failed', { 
+        status: res.statusCode,
+        path: req.path 
+      });
+    }
+  });
+
+  next();
+};
+
+// Export session data for monitoring
+setInterval(() => {
+  const analytics = serverLogger.getAnalytics();
+  if (analytics.errorRate > 10) {
+    console.log('High error rate detected:', analytics);
+    // Alert system integration here
+  }
+}, 60000);`}</code>
+                    </pre>
                   </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <span className="w-5 h-5 bg-green-500 rounded mr-2 flex items-center justify-center text-white text-xs font-bold">V</span>
-                    Vue Integration
+                </Card>
+
+                <Card className="border-0 bg-gradient-to-r from-purple-50 to-pink-50 p-4">
+                  <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
+                    <div className="w-6 h-6 bg-purple-500 rounded mr-3 flex items-center justify-center text-white text-xs font-bold">V</div>
+                    Vue.js Composition API
                   </h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Vue 3 Composable</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// composables/useLogger.js
+                  <div className="bg-gray-900 rounded-lg p-4">
+                    <pre className="font-mono text-xs text-green-400">
+                      <code>{`// composables/useLogger.js
 import { ref, computed } from 'vue';
 import Logger from 'weelog';
 
-export function useLogger(context = null, options = {}) {
-  const logger = ref(new Logger({
-    level: import.meta.env.DEV ? 'debug' : 'info',
-    useTimestamp: true,
-    ...options
-  }));
+export function useLogger(context) {
+  const logger = new Logger({
+    level: import.meta.env.DEV ? 'debug' : 'warn',
+    enablePerformanceTracking: true,
+    enableMemoryTracking: true,
+    enableLogAnalytics: true
+  }).withContext(context);
+
+  const analytics = ref(logger.getAnalytics());
   
-  const contextLogger = computed(() => 
-    context ? logger.value.withContext(context) 
-            : logger.value
+  const updateAnalytics = () => {
+    analytics.value = logger.getAnalytics();
+  };
+
+  const loggedErrors = computed(() => 
+    logger.searchLogs({ level: 'error' })
   );
-  
+
   return {
-    logger: contextLogger.value,
-    debug: (msg, data) => 
-      contextLogger.value.debug(msg, data),
-    info: (msg, data) => 
-      contextLogger.value.info(msg, data),
-    warn: (msg, data) => 
-      contextLogger.value.warn(msg, data),
-    error: (msg, data) => 
-      contextLogger.value.error(msg, data)
+    logger,
+    analytics: readonly(analytics),
+    loggedErrors,
+    updateAnalytics
   };
 }
 
-// Usage in component
+// Component usage
 export default {
   setup() {
-    const { logger, info, error } = 
-      useLogger('UserComponent');
+    const { logger, analytics } = useLogger('ProductList');
     
-    const fetchData = async () => {
-      info('Fetching user data');
+    const fetchProducts = async () => {
+      logger.startPerformanceTimer('fetch-products');
       try {
-        const response = await api.getUsers();
-        info('Data fetched successfully', 
-          { count: response.length });
-      } catch (err) {
-        error('Failed to fetch data', err);
+        const products = await api.getProducts();
+        logger.endPerformanceTimer('fetch-products', 'Products loaded');
+        return products;
+      } catch (error) {
+        logger.error('Failed to fetch products', { error });
+        throw error;
       }
     };
-    
-    return { fetchData };
+
+    return { fetchProducts, analytics };
   }
 };`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Vue Plugin</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// plugins/logger.js
-import Logger from 'weelog';
-
-export default {
-  install(app, options = {}) {
-    const logger = new Logger({
-      level: 'info',
-      useTimestamp: true,
-      ...options
-    });
-    
-    app.config.globalProperties.$logger = logger;
-    app.provide('logger', logger);
-  }
-};
-
-// main.js
-import { createApp } from 'vue';
-import LoggerPlugin from './plugins/logger.js';
-
-const app = createApp(App);
-app.use(LoggerPlugin, { level: 'debug' });`}</code>
-                        </pre>
-                      </div>
-                    </div>
+                    </pre>
                   </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <span className="w-5 h-5 bg-green-600 rounded mr-2 flex items-center justify-center text-white text-xs font-bold">N</span>
-                    Node.js Integration
-                  </h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">CommonJS Module</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// logger.js
-const Logger = require('weelog');
-
-const logger = new Logger({
-  level: process.env.LOG_LEVEL || 'info',
-  useTimestamp: true
-});
-
-// Add file logging interceptor
-logger.onLog((level, message, context, data) => {
-  const logEntry = {
-    timestamp: new Date().toISOString(),
-    level,
-    context,
-    message,
-    data
-  };
-  
-  // Write to file or send to external service
-  if (level === 'error') {
-    require('fs').appendFileSync('error.log', 
-      JSON.stringify(logEntry) + '\\n'
-    );
-  }
-});
-
-module.exports = logger;`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Express.js Middleware</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// middleware/logger.js
-const Logger = require('weelog');
-
-const httpLogger = new Logger()
-  .setLevel('info')
-  .withContext('HTTP');
-
-function requestLogger(req, res, next) {
-  const start = Date.now();
-  const requestId = Math.random()
-    .toString(36).substr(2, 9);
-  
-  req.logger = httpLogger
-    .withContext(\`HTTP:\${requestId}\`);
-  
-  req.logger.info(\`\${req.method} \${req.path}\`, {
-    ip: req.ip,
-    userAgent: req.get('User-Agent')
-  });
-  
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    req.logger.info('Response sent', {
-      statusCode: res.statusCode,
-      duration: \`\${duration}ms\`
-    });
-  });
-  
-  next();
-}
-
-module.exports = requestLogger;
-
-// Usage in app.js
-const express = require('express');
-const requestLogger = 
-  require('./middleware/logger');
-
-const app = express();
-app.use(requestLogger);`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <span className="w-5 h-5 bg-orange-500 rounded mr-2 flex items-center justify-center text-white text-xs font-bold">A</span>
-                    Angular Integration
-                  </h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Injectable Service</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// services/logger.service.ts
-import { Injectable } from '@angular/core';
-import Logger from 'weelog';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class LoggerService {
-  private logger: Logger;
-  
-  constructor() {
-    this.logger = new Logger({
-      level: 'info',
-      useTimestamp: true
-    });
-  }
-  
-  withContext(context: string) {
-    return this.logger.withContext(context);
-  }
-  
-  debug(message: string, data?: any) {
-    this.logger.debug(message, data);
-  }
-  
-  info(message: string, data?: any) {
-    this.logger.info(message, data);
-  }
-  
-  warn(message: string, data?: any) {
-    this.logger.warn(message, data);
-  }
-  
-  error(message: string, data?: any) {
-    this.logger.error(message, data);
-  }
-}
-
-// Usage in component
-import { Component } from '@angular/core';
-import { LoggerService } from './services/logger.service';
-
-@Component({
-  selector: 'app-user',
-  template: \`<div>User Component</div>\`
-})
-export class UserComponent {
-  private componentLogger = 
-    this.logger.withContext('UserComponent');
-  
-  constructor(private logger: LoggerService) {
-    this.componentLogger.info('Component initialized');
-  }
-}`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <span className="w-5 h-5 bg-black rounded mr-2 flex items-center justify-center text-white text-xs font-bold">⚡</span>
-                    Vite/Webpack Integration
-                  </h4>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-2">Environment-based Configuration</p>
-                      <div className="bg-gray-100 rounded-lg p-3 overflow-x-auto">
-                        <pre className="font-mono text-xs text-gray-800 whitespace-pre-wrap break-words">
-                          <code>{`// utils/logger.js
-import Logger from 'weelog';
-
-const isDevelopment = import.meta.env.DEV || 
-  process.env.NODE_ENV === 'development';
-const isProduction = import.meta.env.PROD || 
-  process.env.NODE_ENV === 'production';
-
-export const logger = new Logger({
-  level: isDevelopment ? 'debug' : 
-         isProduction ? 'error' : 'info',
-  enabled: !import.meta.env.SSR, // Disable in SSR
-  useTimestamp: true
-});
-
-// Production error reporting
-if (isProduction) {
-  logger.onLog((level, message, context, data) => {
-    if (level === 'error') {
-      // Send to error tracking service
-      if (window.Sentry) {
-        window.Sentry.captureException(
-          new Error(message), {
-            tags: { context },
-            extra: data
-          }
-        );
-      }
-    }
-  });
-}
-
-export default logger;`}</code>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </Card>
               </div>
             </div>
           )}
