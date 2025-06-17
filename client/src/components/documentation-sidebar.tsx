@@ -323,69 +323,179 @@ logger.clearHistory();`}</code>
           {/* Methods & Options Tab */}
           {activeTab === 'api' && (
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Methods & Configuration</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete Methods & Options Reference</h3>
               
               <div className="space-y-6">
+                {/* Constructor Options */}
                 <Card className="border-0 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
-                  <h4 className="font-semibold text-blue-900 mb-2">Logger Constructor</h4>
+                  <h4 className="font-semibold text-blue-900 mb-3">Constructor Options</h4>
                   <div className="bg-gray-900 rounded-lg p-3 mb-3">
                     <code className="font-mono text-sm text-green-400">new Logger(options?: LoggerOptions)</code>
                   </div>
-                  <div className="text-sm text-blue-800">
-                    <div className="font-medium mb-2">Advanced Options:</div>
+                  <div className="text-sm text-blue-800 space-y-3">
                     <div className="grid grid-cols-1 gap-2 text-xs">
                       <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">level: 'debug' | 'info' | 'warn' | 'error'</code>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> 'info' | <strong>Use:</strong> Set minimum log level - 'debug' for development, 'warn' for production monitoring</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">enabled: boolean</code>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> true | <strong>Use:</strong> Master switch to disable all logging in production environments</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">useTimestamp: boolean</code>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> Enable for debugging time-sensitive operations and performance analysis</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">useHumanReadableTimestamp: boolean</code>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> When logs are reviewed by humans - shows "Jun 16, 2025, 9:45:23 PM" vs ISO format</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
                         <code className="text-blue-700">enablePerformanceTracking: boolean</code>
-                        <div className="text-blue-600 mt-1">Track execution times automatically</div>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> Track operation durations, API response times, identify bottlenecks</div>
                       </div>
                       <div className="bg-white/50 rounded p-2">
                         <code className="text-blue-700">enableMemoryTracking: boolean</code>
-                        <div className="text-blue-600 mt-1">Monitor heap memory usage</div>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> Memory leak detection, resource monitoring, optimization</div>
+                      </div>
+                      <div className="bg-white/50 rounded p-2">
+                        <code className="text-blue-700">logMemoryInline: boolean</code>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> Real-time memory monitoring during development (requires enableMemoryTracking)</div>
                       </div>
                       <div className="bg-white/50 rounded p-2">
                         <code className="text-blue-700">enableLogAnalytics: boolean</code>
-                        <div className="text-blue-600 mt-1">Collect logging statistics</div>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> false | <strong>Use:</strong> Monitor error rates, log frequency analysis, debugging insights</div>
                       </div>
                       <div className="bg-white/50 rounded p-2">
                         <code className="text-blue-700">maxLogHistory: number</code>
-                        <div className="text-blue-600 mt-1">Maximum logs to keep in memory</div>
+                        <div className="text-blue-600 mt-1"><strong>Default:</strong> 1000 | <strong>Use:</strong> Increase for longer debugging sessions, decrease to save memory</div>
                       </div>
                     </div>
                   </div>
                 </Card>
-                
+
+                {/* Core Logging Methods */}
                 <Card className="border-0 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
-                  <h4 className="font-semibold text-green-900 mb-3">Advanced Methods</h4>
-                  <div className="space-y-3">
-                    <div className="bg-white/50 rounded p-3">
-                      <div className="bg-gray-900 rounded p-2 mb-2">
-                        <code className="font-mono text-xs text-green-400">logger.trace(message, data)</code>
-                      </div>
-                      <p className="text-xs text-green-700">Captures complete stack trace for debugging</p>
+                  <h4 className="font-semibold text-green-900 mb-3">Core Logging Methods</h4>
+                  <div className="space-y-3 text-xs">
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-green-700 font-mono">debug(message: string, data?: any)</code>
+                      <div className="text-green-600 mt-1"><strong>Use:</strong> Detailed diagnostics, variable values, flow control</div>
                     </div>
-                    <div className="bg-white/50 rounded p-3">
-                      <div className="bg-gray-900 rounded p-2 mb-2">
-                        <code className="font-mono text-xs text-green-400">logger.startPerformanceTimer(label)</code>
-                      </div>
-                      <p className="text-xs text-green-700">Begin tracking execution time for operations</p>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-green-700 font-mono">info(message: string, data?: any)</code>
+                      <div className="text-green-600 mt-1"><strong>Use:</strong> General application flow, user actions, system status</div>
                     </div>
-                    <div className="bg-white/50 rounded p-3">
-                      <div className="bg-gray-900 rounded p-2 mb-2">
-                        <code className="font-mono text-xs text-green-400">logger.getAnalytics()</code>
-                      </div>
-                      <p className="text-xs text-green-700">Get real-time logging statistics and error rates</p>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-green-700 font-mono">warn(message: string, data?: any)</code>
+                      <div className="text-green-600 mt-1"><strong>Use:</strong> Potential issues, deprecated usage, fallback scenarios</div>
                     </div>
-                    <div className="bg-white/50 rounded p-3">
-                      <div className="bg-gray-900 rounded p-2 mb-2">
-                        <code className="font-mono text-xs text-green-400">logger.searchLogs(criteria)</code>
-                      </div>
-                      <p className="text-xs text-green-700">Filter log history by level, context, or time range</p>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-green-700 font-mono">error(message: string, data?: any)</code>
+                      <div className="text-green-600 mt-1"><strong>Use:</strong> Actual errors, exceptions, failed operations</div>
                     </div>
-                    <div className="bg-white/50 rounded p-3">
+                  </div>
+                </Card>
+                
+                {/* Advanced Methods */}
+                <Card className="border-0 bg-gradient-to-r from-purple-50 to-pink-50 p-4">
+                  <h4 className="font-semibold text-purple-900 mb-3">Advanced Methods</h4>
+                  <div className="space-y-2 text-xs">
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-purple-700 font-mono">trace(message: string, data?: any)</code>
+                      <div className="text-purple-600 mt-1"><strong>Use:</strong> Debug complex execution flows, capture stack traces automatically</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-purple-700 font-mono">withContext(context: string)</code>
+                      <div className="text-purple-600 mt-1"><strong>Use:</strong> Group logs by module/component for easier filtering</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-purple-700 font-mono">startPerformanceTimer(label: string)</code>
+                      <div className="text-purple-600 mt-1"><strong>Use:</strong> Begin measuring operation duration</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-purple-700 font-mono">endPerformanceTimer(label: string, message?: string)</code>
+                      <div className="text-purple-600 mt-1"><strong>Use:</strong> End timer and log duration (requires enablePerformanceTracking)</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Data Retrieval Methods */}
+                <Card className="border-0 bg-gradient-to-r from-orange-50 to-red-50 p-4">
+                  <h4 className="font-semibold text-orange-900 mb-3">Data Retrieval & Analytics</h4>
+                  <div className="space-y-2 text-xs">
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-orange-700 font-mono">getAnalytics(): LogAnalytics</code>
+                      <div className="text-orange-600 mt-1"><strong>Use:</strong> Monitor error rates, log frequency, application health</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-orange-700 font-mono">getLogHistory(): LogEntry[]</code>
+                      <div className="text-orange-600 mt-1"><strong>Use:</strong> Review recent logs, export debugging sessions</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-orange-700 font-mono">searchLogs(criteria): LogEntry[]</code>
+                      <div className="text-orange-600 mt-1"><strong>Use:</strong> Filter by level, context, message, or time range</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-orange-700 font-mono">exportLogs(): string</code>
+                      <div className="text-orange-600 mt-1"><strong>Use:</strong> Export complete session as JSON for team sharing</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-orange-700 font-mono">clearHistory(): Logger</code>
+                      <div className="text-orange-600 mt-1"><strong>Use:</strong> Clean up memory, start fresh debugging sessions</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Configuration Methods */}
+                <Card className="border-0 bg-gradient-to-r from-teal-50 to-cyan-50 p-4">
+                  <h4 className="font-semibold text-teal-900 mb-3">Runtime Configuration</h4>
+                  <div className="space-y-2 text-xs">
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-teal-700 font-mono">setLevel(level: LogLevel): Logger</code>
+                      <div className="text-teal-600 mt-1"><strong>Use:</strong> Change minimum log level dynamically</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-teal-700 font-mono">enable(enabled: boolean): Logger</code>
+                      <div className="text-teal-600 mt-1"><strong>Use:</strong> Enable/disable logging at runtime</div>
+                    </div>
+                    <div className="bg-white/50 rounded p-2">
+                      <code className="text-teal-700 font-mono">onLog(callback: LogInterceptor): Logger</code>
+                      <div className="text-teal-600 mt-1"><strong>Use:</strong> Integrate with external logging services, custom processing</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Usage Scenarios */}
+                <Card className="border-0 bg-gradient-to-r from-gray-50 to-slate-50 p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3">Common Usage Patterns</h4>
+                  <div className="space-y-3 text-xs">
+                    <div className="bg-white rounded p-3 border border-gray-200">
+                      <div className="font-medium text-gray-800 mb-2">Development Setup</div>
                       <div className="bg-gray-900 rounded p-2 mb-2">
-                        <code className="font-mono text-xs text-green-400">logger.exportLogs()</code>
+                        <code className="text-green-400 font-mono text-xs">
+                          {`const logger = new Logger({
+  level: 'debug',
+  useHumanReadableTimestamp: true,
+  enablePerformanceTracking: true,
+  logMemoryInline: true
+});`}
+                        </code>
                       </div>
-                      <p className="text-xs text-green-700">Export complete session as JSON for sharing</p>
+                      <div className="text-gray-600">Full debugging with human-readable timestamps</div>
+                    </div>
+                    <div className="bg-white rounded p-3 border border-gray-200">
+                      <div className="font-medium text-gray-800 mb-2">Production Setup</div>
+                      <div className="bg-gray-900 rounded p-2 mb-2">
+                        <code className="text-green-400 font-mono text-xs">
+                          {`const logger = new Logger({
+  level: 'warn',
+  enableLogAnalytics: true,
+  maxLogHistory: 500
+});`}
+                        </code>
+                      </div>
+                      <div className="text-gray-600">Warnings and errors only with analytics</div>
                     </div>
                   </div>
                 </Card>

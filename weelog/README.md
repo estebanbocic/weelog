@@ -118,52 +118,272 @@ humanLogger.info('User logged in');
 
 ### Constructor Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `level` | `'debug' \| 'info' \| 'warn' \| 'error'` | `'info'` | Minimum log level |
-| `enabled` | `boolean` | `true` | Enable/disable logging |
-| `useTimestamp` | `boolean` | `false` | Include timestamps |
-| `useHumanReadableTimestamp` | `boolean` | `false` | Use human-friendly timestamps |
-| `enablePerformanceTracking` | `boolean` | `false` | Track operation timers |
-| `enableMemoryTracking` | `boolean` | `false` | Monitor memory usage |
-| `logMemoryInline` | `boolean` | `false` | Show live memory in each log |
-| `enableLogAnalytics` | `boolean` | `false` | Collect analytics data |
-| `maxLogHistory` | `number` | `1000` | Maximum logs to keep |
+| Option | Type | Default | Description | When to Use |
+|--------|------|---------|-------------|-------------|
+| `level` | `'debug' \| 'info' \| 'warn' \| 'error'` | `'info'` | Sets minimum log level that will be displayed | Use `'debug'` for development, `'info'` for production, `'warn'` for monitoring, `'error'` for critical-only logging |
+| `enabled` | `boolean` | `true` | Master switch to enable/disable all logging | Set to `false` to completely disable logging in production or specific environments |
+| `useTimestamp` | `boolean` | `false` | Adds timestamp prefix to all log messages | Enable for debugging time-sensitive operations, API calls, or performance analysis |
+| `useHumanReadableTimestamp` | `boolean` | `false` | Formats timestamps in human-friendly format instead of ISO | Use when logs are reviewed by humans rather than machines; shows "Jun 16, 2025, 9:45:23 PM" vs "2025-06-16T21:45:23.156Z" |
+| `enablePerformanceTracking` | `boolean` | `false` | Enables performance timer functionality | Use when measuring operation durations, API response times, or optimizing code performance |
+| `enableMemoryTracking` | `boolean` | `false` | Collects memory usage data for analytics | Enable for memory leak detection, optimization, or resource monitoring |
+| `logMemoryInline` | `boolean` | `false` | Shows live memory usage in each log entry | Use during development to track memory consumption in real-time; requires `enableMemoryTracking: true` |
+| `enableLogAnalytics` | `boolean` | `false` | Collects statistics about log patterns and usage | Enable for monitoring error rates, log frequency analysis, and debugging insights |
+| `maxLogHistory` | `number` | `1000` | Maximum number of log entries to keep in memory | Increase for longer debugging sessions, decrease to save memory in production |
 
-### Core Methods
+### Core Logging Methods
 
+#### Basic Logging
 ```javascript
-// Basic logging
-logger.debug(message, data?)
-logger.info(message, data?)
-logger.warn(message, data?)
-logger.error(message, data?)
-
-// Context logging
-logger.withContext('ModuleName').info('Message')
-
-// Performance tracking
-logger.startPerformanceTimer(label)
-logger.endPerformanceTimer(label, message?)
-
-// Advanced features
-logger.trace(message, data?)           // Auto stack trace
-logger.getAnalytics()                  // Get metrics
-logger.getLogHistory()                 // Get all logs
-logger.searchLogs(criteria)            // Search with filters
-logger.exportLogs()                    // Export as JSON
-logger.clearHistory()                  // Clear log history
+logger.debug(message: string, data?: any)
+logger.info(message: string, data?: any)
+logger.warn(message: string, data?: any)
+logger.error(message: string, data?: any)
 ```
 
-### Search Criteria
+**Parameters:**
+- `message`: The main log message (required)
+- `data`: Additional data object, array, or primitive value (optional)
 
+**When to use each level:**
+- `debug()`: Detailed diagnostic information, variable values, flow control
+- `info()`: General application flow, user actions, system status
+- `warn()`: Potential issues, deprecated usage, fallback scenarios
+- `error()`: Actual errors, exceptions, failed operations
+
+#### Context Logging
 ```javascript
-logger.searchLogs({
-  level?: 'debug' | 'info' | 'warn' | 'error',
-  context?: string,
-  message?: string,
-  timeRange?: { start: Date, end: Date }
-})
+logger.withContext(context: string): Logger
+```
+
+**Usage:**
+```javascript
+const apiLogger = logger.withContext('API');
+apiLogger.info('Request received', { method: 'GET', path: '/users' });
+// Output: [INFO] [API] Request received {"method":"GET","path":"/users"}
+```
+
+**When to use:** Group related logs by module, component, or feature area for easier filtering and debugging.
+
+#### Performance Tracking
+```javascript
+logger.startPerformanceTimer(label: string): Logger
+logger.endPerformanceTimer(label: string, message?: string): Logger
+```
+
+**Usage:**
+```javascript
+logger.startPerformanceTimer('database-query');
+await fetchUserData();
+logger.endPerformanceTimer('database-query', 'User data fetched');
+// Output: [INFO] User data fetched {"performanceTimer":"database-query","duration":"245ms","timestamp":"Jun 16, 2025, 9:45:23 PM"}
+```
+
+**When to use:** Measure operation durations, identify bottlenecks, track API response times, or optimize code performance.
+
+#### Stack Trace Logging
+```javascript
+logger.trace(message: string, data?: any): LogEntry | null
+```
+
+**Usage:**
+```javascript
+logger.trace('Checkpoint reached', { userId: 123 });
+// Automatically captures and includes stack trace
+```
+
+**When to use:** Debug complex execution flows, identify call paths, or troubleshoot hard-to-reproduce issues.
+
+### Configuration Management Methods
+
+#### Level Control
+```javascript
+logger.setLevel(level: LogLevel): Logger
+logger.enable(enabled: boolean): Logger
+```
+
+**Usage:**
+```javascript
+logger.setLevel('warn');  // Only show warnings and errors
+logger.enable(false);     // Disable all logging
+```
+
+#### Context Management
+```javascript
+logger.withContext(context: string): Logger
+```
+
+**Usage:**
+```javascript
+const dbLogger = logger.withContext('Database');
+const apiLogger = logger.withContext('API');
+```
+
+#### Interceptors
+```javascript
+logger.onLog(callback: LogInterceptor): Logger
+```
+
+**Usage:**
+```javascript
+logger.onLog((level, message, context, data) => {
+  // Send to external logging service
+  sendToAnalytics({ level, message, context, data });
+});
+```
+
+**When to use:** Integrate with external logging services, send logs to analytics platforms, or implement custom log processing.
+
+### Data Retrieval Methods
+
+#### Analytics
+```javascript
+logger.getAnalytics(): LogAnalytics
+```
+
+**Returns:**
+```javascript
+{
+  totalLogs: number,           // Total number of logs
+  logsByLevel: {               // Count by log level
+    debug: number,
+    info: number,
+    warn: number,
+    error: number
+  },
+  averageLogRate: number,      // Logs per minute
+  errorRate: number,           // Percentage of error logs
+  topContexts: Array<{         // Most active contexts
+    context: string,
+    count: number
+  }>
+}
+```
+
+**When to use:** Monitor application health, track error rates, identify problematic areas, or generate debugging reports.
+
+#### Log History
+```javascript
+logger.getLogHistory(): LogEntry[]
+logger.clearHistory(): Logger
+```
+
+**When to use:** Review recent logs, export debugging sessions, or clean up memory usage.
+
+#### Search and Filter
+```javascript
+logger.searchLogs(criteria: SearchCriteria): LogEntry[]
+```
+
+**Search Criteria:**
+```javascript
+{
+  level?: 'debug' | 'info' | 'warn' | 'error',  // Filter by log level
+  context?: string,                              // Filter by context
+  message?: string,                              // Search in message text
+  timeRange?: {                                  // Filter by time range
+    start: Date,
+    end: Date
+  }
+}
+```
+
+**Usage examples:**
+```javascript
+// Find all errors in the last hour
+const recentErrors = logger.searchLogs({
+  level: 'error',
+  timeRange: { 
+    start: new Date(Date.now() - 3600000), 
+    end: new Date() 
+  }
+});
+
+// Find all API-related logs
+const apiLogs = logger.searchLogs({ context: 'API' });
+
+// Search for specific message content
+const loginLogs = logger.searchLogs({ message: 'login' });
+```
+
+#### Export
+```javascript
+logger.exportLogs(): string
+```
+
+**Returns:** JSON string containing complete session data including logs, analytics, and metadata.
+
+**When to use:** Create debugging reports, save troubleshooting sessions, or transfer logs to external systems.
+
+## 🎯 Usage Scenarios & Best Practices
+
+### Development Environment
+```javascript
+const devLogger = new Logger({
+  level: 'debug',
+  useTimestamp: true,
+  useHumanReadableTimestamp: true,
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  logMemoryInline: true,
+  enableLogAnalytics: true
+});
+
+// Perfect for debugging and optimization
+devLogger.startPerformanceTimer('api-call');
+const result = await fetchData();
+devLogger.endPerformanceTimer('api-call');
+```
+
+### Production Environment
+```javascript
+const prodLogger = new Logger({
+  level: 'warn',
+  useTimestamp: true,
+  enableLogAnalytics: true,
+  maxLogHistory: 500
+});
+
+// Focus on warnings and errors only
+prodLogger.onLog((level, message, context, data) => {
+  if (level === 'error') {
+    sendToErrorTracking({ level, message, context, data });
+  }
+});
+```
+
+### Performance Monitoring
+```javascript
+const perfLogger = new Logger({
+  level: 'info',
+  enablePerformanceTracking: true,
+  enableMemoryTracking: true,
+  useTimestamp: true
+});
+
+// Monitor critical operations
+perfLogger.startPerformanceTimer('database-query');
+const users = await db.users.findMany();
+perfLogger.endPerformanceTimer('database-query', `Found ${users.length} users`);
+```
+
+### Debugging Sessions
+```javascript
+const debugLogger = new Logger({
+  level: 'debug',
+  useTimestamp: true,
+  useHumanReadableTimestamp: true,
+  enableLogAnalytics: true,
+  maxLogHistory: 2000
+});
+
+// Comprehensive debugging
+debugLogger.trace('Entering function', { params });
+debugLogger.info('Processing data', { step: 1 });
+debugLogger.warn('Potential issue detected', { issue });
+
+// Export session for analysis
+const session = debugLogger.exportLogs();
+localStorage.setItem('debug-session', session);
 ```
 
 ## 💾 Inline Memory Tracking
