@@ -83,7 +83,7 @@ logger.withContext('Auth').warn("Session expired");`;
           and smart search capabilities in one lightweight package.
         </p>
         <p className="text-sm sm:text-base lg:text-lg text-blue-600 font-medium mb-6">
-          Available on NPM
+          Available on NPM - Version 2.1.2
         </p>
         
         <div className="flex justify-center mb-6 relative">

@@ -77,11 +77,42 @@ export function DocumentationSidebar() {
                 <div className="flex items-center mb-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   <span className="text-sm font-semibold text-green-800">Production Ready</span>
-                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.1.1</Badge>
+                  <Badge className="ml-2 bg-green-100 text-green-800 text-xs">v2.1.2</Badge>
                 </div>
                 <p className="text-sm text-green-700">
                   Professional logging library with advanced debugging capabilities for modern JavaScript applications.
                 </p>
+              </Card>
+
+              {/* Latest Release Notes */}
+              <Card className="border-0 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 mb-6">
+                <h4 className="font-semibold text-blue-900 mb-3">What's New in v2.1.2</h4>
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-start">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5 mr-2"></div>
+                    <div className="text-blue-800">
+                      <strong>Fixed:</strong> Human-readable timestamps now apply to JSON objects
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 mr-2"></div>
+                    <div className="text-blue-800">
+                      <strong>Added:</strong> Comprehensive METHODS_AND_OPTIONS.md reference guide
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-1.5 mr-2"></div>
+                    <div className="text-blue-800">
+                      <strong>Added:</strong> Complete "When to Use" guidance for every option
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 mr-2"></div>
+                    <div className="text-blue-800">
+                      <strong>Enhanced:</strong> Documentation with usage scenarios and best practices
+                    </div>
+                  </div>
+                </div>
               </Card>
               
               <div className="space-y-8">
