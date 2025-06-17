@@ -29,14 +29,6 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <button 
-                  onClick={() => scrollToSection('demo')}
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Live Demo
-                </button>
-              </li>
-              <li>
-                <button 
                   onClick={() => scrollToSection('documentation')}
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
@@ -44,7 +36,12 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+                <a 
+                  href="https://github.com/estebanbocic/weelog" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
                   GitHub Repository
                 </a>
               </li>

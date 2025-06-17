@@ -31,12 +31,6 @@ export function Header() {
             >
               Docs
             </button>
-            <button 
-              onClick={() => scrollToSection('demo')}
-              className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm font-medium transition-colors"
-            >
-              Demo
-            </button>
             <Button 
               onClick={() => window.open('https://www.paypal.com/donate/?business=ebocic@gmail.com&item_name=Support+WeeLog+Development&currency_code=USD', '_blank')}
               className="bg-blue-600 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-1"
