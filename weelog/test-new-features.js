@@ -13,8 +13,8 @@ const humanLogger = new Logger({
   useHumanReadableTimestamp: true
 });
 
-humanLogger.info('This log uses human-readable timestamps');
-humanLogger.warn('Warning with readable time format');
+humanLogger.info('This log uses human-readable timestamps', { timestamp: Date.now(), userId: 123 });
+humanLogger.warn('Warning with readable time format', { timestamp: new Date(), retries: 3 });
 
 // Test 2: ISO timestamps (existing format)
 console.log('\n📅 Testing ISO Timestamps:');

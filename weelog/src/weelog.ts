@@ -332,7 +332,9 @@ export class Logger {
     if (data !== undefined && data !== null) {
       if (typeof data === 'object') {
         try {
-          formatted += ` ${JSON.stringify(data)}`;
+          // Process the data to apply human readable timestamps if enabled
+          const processedData = this.processDataTimestamps(data);
+          formatted += ` ${JSON.stringify(processedData)}`;
         } catch (e) {
           formatted += ` [Object (circular)]`;
         }
@@ -342,6 +344,50 @@ export class Logger {
     }
     
     return formatted;
+  }
+
+  /**
+   * Process data object to apply human readable timestamps
+   */
+  private processDataTimestamps(data: any): any {
+    if (!this.useHumanReadableTimestamp) {
+      return data;
+    }
+
+    if (data === null || data === undefined) {
+      return data;
+    }
+
+    if (typeof data !== 'object') {
+      return data;
+    }
+
+    if (Array.isArray(data)) {
+      return data.map(item => this.processDataTimestamps(item));
+    }
+
+    const processed: any = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (key === 'timestamp' && (typeof value === 'number' || value instanceof Date)) {
+        // Convert timestamp to human readable format
+        const date = typeof value === 'number' ? new Date(value) : value;
+        processed[key] = date.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+      } else if (typeof value === 'object') {
+        processed[key] = this.processDataTimestamps(value);
+      } else {
+        processed[key] = value;
+      }
+    }
+    
+    return processed;
   }
 
   /**
