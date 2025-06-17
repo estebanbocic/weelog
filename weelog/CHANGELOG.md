@@ -5,6 +5,25 @@ All notable changes to WeeLog will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2025-06-17
+
+### Added
+- Comprehensive METHODS_AND_OPTIONS.md reference guide with detailed flag descriptions
+- QUICK_REFERENCE.md for easy access to all methods and options
+- Complete "When to Use" guidance for every constructor option and method
+- Enhanced documentation sidebar with categorized method sections
+- Usage scenarios and best practices for development vs production setups
+
+### Fixed
+- Human-readable timestamp formatting now applies to timestamps inside JSON objects
+- Timestamps in data objects are now consistently formatted when useHumanReadableTimestamp is enabled
+- Added processDataTimestamps function to handle nested timestamp formatting
+
+### Changed
+- Updated main README.md with expanded API reference including default values and use cases
+- Enhanced package.json to include all new documentation files
+- Improved documentation structure with comprehensive method categorization
+
 ## [2.1.1] - 2025-06-16
 
 ### Added
